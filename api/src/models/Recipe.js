@@ -18,14 +18,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    spoonacularScore: { 
-      type: DataTypes.INTEGER
-    },
     healthScore: { 
       type: DataTypes.INTEGER,
     },
-    analyzedInstructions:{
-      type: DataTypes.TEXT,
+    stepBystep: {
+      type: DataTypes.ARRAY(DataTypes.JSONB)
     },
     image: {
       type:DataTypes.STRING,
@@ -35,5 +32,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue:true
     }
+  }, {
+    timestamps: false
   });
 };
