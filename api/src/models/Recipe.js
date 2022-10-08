@@ -14,20 +14,20 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    summary: {
+    summary: {//resumen del plato
       type: DataTypes.STRING,
       allowNull: false
     },
-    healthScore: { 
+    healthScore:{ //nivel de comida saludable
       type: DataTypes.INTEGER,
     },
-    stepBystep: {
-      type: DataTypes.ARRAY(DataTypes.JSONB)
+    analyzedInstructions:{//paso a paso
+      type: DataTypes.TEXT,
     },
-    image: {
+    image:{
       type:DataTypes.STRING,
     },
-    fromDb: {
+    fromDb:{
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue:true
@@ -36,3 +36,4 @@ module.exports = (sequelize) => {
     timestamps: false
   });
 };
+
