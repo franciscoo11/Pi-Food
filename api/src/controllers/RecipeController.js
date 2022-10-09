@@ -42,7 +42,7 @@ const getAllRecipes = async () => {
   const dataFromApiAndDb = await Promise.all([getApiRecipes(), getDbRecipes()]);
   let [recipesFromApi, recipesFromDb] = dataFromApiAndDb;
 
-  return recipesFromApi.concat(recipesFromDb);
+  return [...recipesFromApi, ...recipesFromDb];
 };
 
 const getRecipeById = async (res,id) => {
