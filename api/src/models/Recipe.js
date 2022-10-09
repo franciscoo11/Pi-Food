@@ -14,20 +14,20 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    summary: {//resumen del plato
+    summary: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    healthScore:{ //nivel de comida saludable
+    healthScore: { 
       type: DataTypes.INTEGER,
     },
-    analyzedInstructions:{//paso a paso
+    analyzedInstructions: {
       type: DataTypes.TEXT,
     },
-    image:{
+    image: {
       type:DataTypes.STRING,
     },
-    fromDb:{
+    fromDb: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue:true
