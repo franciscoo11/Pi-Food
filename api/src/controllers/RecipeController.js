@@ -7,7 +7,7 @@ const { API_KEY, API_KEY2, API_KEY3 } = process.env;
 
 const getApiRecipes = async () => {
   const apiData = await axios.get(
-    `${API_URL}/complexSearch?apiKey=${API_KEY3}&addRecipeInformation=true&number=100`
+    `${API_URL}/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
   );
 
   const apiRecipes = await apiData.data.results.map((recipe) => {
@@ -56,19 +56,18 @@ const getRecipeById = async (res, id) => {
 };
 
 const addRecipe = async (req, res) => {
-  const { title, summary, image, diets } = req.body;
+  const { title, summary, image } = req.body;
   if (!title || !summary) return res.status(400).json({ error: "Se necesita el titulo y la descripción de la receta." });
   const createRecipe = await Recipe.create({
     ...req.body,
     image: image || "https://ibb.co/gy1ksxp",
   });
+  
   const matchDiets = await TypeDiet.findAll({
-    where: { name: diets },
+    where: { name: req.body.diets },
   });
-  if (createRecipe) {
-    createRecipe.addTypeDiet(matchDiets);  // CHECK IF BEFORE ADD DIETS SEARCH 
-    return res.status(200).json({ success: "Receta creada con exito!" });
-  }
+  createRecipe.addTypeDiet(matchDiets);  // CHECK IF BEFORE ADD DIETS SEARCH 
+  return res.status(200).json({ success: "Receta creada con exito!" });
   
 };
 
