@@ -39,21 +39,34 @@ const getDbRecipes = async () => {
 };
 
 const getAllRecipes = async () => {
-  const dataFromApiAndDb = await Promise.all([getApiRecipes(), getDbRecipes()]);
-  let [recipesFromApi, recipesFromDb] = dataFromApiAndDb;
+  const apiRecipes = await getApiRecipes();
+  const dbRecipes = await getDbRecipes();
 
-  return [...recipesFromApi, ...recipesFromDb];
+  return apiRecipes.concat(dbRecipes);
 };
 
-const getRecipeById = async (res,id) => {
-  if (!id) throw new Error("Debe suministrar un ID.");
+const getRecipeById = async (res, id) => {
+  //OTHER SOLUTION SEARCH INDEPENDENT DB AND API.. THINK BETTER SOLUTION!
+  if (!id) return res.status(400).json({error: "Debe suministrar un ID."});
   const allRecipes = await getAllRecipes();
-  const recipeById = await allRecipes.find(
-    (recipe) => recipe.id === parseInt(id)
-  );
+  const recipeById = await allRecipes.find((recipe) => recipe.id == id);
   recipeById
     ? res.status(200).json(recipeById)
     : res.status(404).json({ error: "No se encontro la receta." });
+};
+
+const addRecipe = async (req, res) => {
+  const { title, summary, image } = req.body;
+  if (!title || !summary) return res.status(400).json({ error: "Se necesita el titulo y la descripción de la receta." });
+  const createRecipe = await Recipe.create({
+    ...req.body,
+    image: image || "https://ibb.co/gy1ksxp",
+  });
+  if (createRecipe) {
+    createRecipe.addTypeDiet(req.body.diets);
+    return res.json({ success: "Receta creada con exito!" });
+  }
+
 };
 
 module.exports = {
@@ -61,5 +74,5 @@ module.exports = {
   getAllRecipes,
   getApiRecipes,
   getDbRecipes,
-
+  addRecipe,
 };
