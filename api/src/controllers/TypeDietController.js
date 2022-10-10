@@ -41,24 +41,34 @@ const getDiets = async (res) => {
   // Y POR CADA TIPO APLICA EL FINDORCREATE DEL MODELO DE TIPODEDIETA
   // RETORNARLO
   const apiRecipes = await getApiRecipes();
-  const allTypesDiets = apiRecipes.map(recipe => recipe.diets)
-  allTypesDiets.forEach(diet => {
-	for(const subdiet of diet){
-		TypeDiet.findOrCreate({
+  const allTypesDiets = apiRecipes.map(recipe => recipe.diets);
+  const keepWithOnlyDietsNames = allTypesDiets.flat();        // ELIMINO LA SUB MATRIZ/SUB ARRAY PARA MEJOR MANEJO;
+  const typeDiets = [...new Set(keepWithOnlyDietsNames),{ name: "vegetarian" }];  // AGREGO EL TIPO DE DIETA VEGETARIAN YA QUE LA API NO ME LO TRAE;
+
+  typeDiets.forEach(async (diet) => {
+		await TypeDiet.findOrCreate({
 			where: {
-				name: subdiet.name
-			}
+				name: diet.name
+			},
 		})
-	}
   });
   
   const allTypeDiet = await TypeDiet.findAll();
   res.status(200).json(allTypeDiet)
 
-//   const data = await TypeDiet.findAll();
-//   if (data.length > 0) return res.status(200).json(data);
-//   const createDiets = await TypeDiet.bulkCreate(diets);
-//   res.status(200).json(createDiets);
+  // allTypesDiets.forEach(diet => {
+  //   for(const subdiet of diet){
+  //     TypeDiet.findOrCreate({
+  //       where: {
+  //         name: subdiet.name
+  //       }
+  //     })
+  //   }
+  //   });
+  //   const data = await TypeDiet.findAll();
+  //   if (data.length > 0) return res.status(200).json(data);
+  //   const createDiets = await TypeDiet.bulkCreate(diets);
+  //   res.status(200).json(createDiets);
 };
 
 module.exports = {
