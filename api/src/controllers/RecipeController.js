@@ -56,17 +56,20 @@ const getRecipeById = async (res, id) => {
 };
 
 const addRecipe = async (req, res) => {
-  const { title, summary, image } = req.body;
+  const { title, summary, image, diets } = req.body;
   if (!title || !summary) return res.status(400).json({ error: "Se necesita el titulo y la descripción de la receta." });
   const createRecipe = await Recipe.create({
     ...req.body,
     image: image || "https://ibb.co/gy1ksxp",
   });
+  const matchDiets = await TypeDiet.findAll({
+    where: { name: diets },
+  });
   if (createRecipe) {
-    createRecipe.addTypeDiet(req.body.diets);
-    return res.json({ success: "Receta creada con exito!" });
+    createRecipe.addTypeDiet(matchDiets);  // CHECK IF BEFORE ADD DIETS SEARCH 
+    return res.status(200).json({ success: "Receta creada con exito!" });
   }
-
+  
 };
 
 module.exports = {
