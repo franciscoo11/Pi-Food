@@ -5,9 +5,9 @@ const router = Router();
 
 router.get("/types", async(req,res) => {
     try {
-        const alltypeDiets = await getDiets(res);
+        getDiets(res);
     } catch (error) {
-        res.status(400).json(error)
+        res.status(500).json( {error: 'Algo salio mal al cargar los tipos de dietas..'} )
     }
 })
 
