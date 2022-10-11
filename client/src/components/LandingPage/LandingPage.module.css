@@ -1,0 +1,29 @@
+.container {
+  background-image: url("../../imgs/background2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.btn {
+  cursor: pointer;
+  background: #afc91e;
+  border-radius: 20px;
+  font-style: "Bahnschrift SemiCondensed";
+  text-decoration: #243b18;
+  font-size: 30px;
+  padding: 9px 33px 9px 33px;
+  text-decoration: none;
+  position: relative;
+  margin-top: 22%;
+  transition: 2s;
+}
+
+.btn:hover {
+  text-decoration: none;
+  background-color: #7a8a22;
+}
