@@ -1,46 +1,89 @@
+require("dotenv").config();
 const { Router } = require("express");
-const {
-  getAllRecipes,
-  getRecipeById,
-  addRecipe,
-} = require("../controllers/RecipeController");
-
+const { Recipe, Diet, Op } = require("./../db.js");
+const { getAllRecipes, getRecipeById } = require('../controllers/RecipeController.js')
 const router = Router();
 
-router.get("/recipes", async (req, res) => {
+
+// const mapEntityToObj = (recipe) => {   // HAGO UN PASAMANO CON UN OBJ CON LA INFORMACION QUE QUIERO QUE VIAJE
+//   return {
+//     id: recipe.id,
+//     name: recipe.name,
+//     summary: recipe.summary,
+//     healthScore: recipe.healthScore,
+//     steps: recipe.steps,
+//     diets: recipe.diets.map((diet) => diet.name),
+//   };
+// };
+
+
+router.get('/', async(req,res) => {
   try {
     const { name } = req.query;
-    const totalRecipes = await getAllRecipes();
-    if (!name) return res.status(200).json(totalRecipes);
-    let recipesByName = await totalRecipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(name.toLowerCase())
-    );
-    return recipesByName.length
-      ? res.status(200).json(recipesByName)
-      : res.status(404).json({ error: "No pudimos encontrar las recetas!" });
+    const allRecipes = await getAllRecipes();
+    if(!name){
+      let recipes = allRecipes.map(recipe => {
+        return {
+          id: recipe.id,
+          name: recipe.name,
+          dietTypes: recipe.dietTypes
+            ? recipe.dietTypes
+            : recipe.diets.map((e) => e.name),
+          healthScore: recipe.healthScore,
+          image: recipe.image,
+        };
+      })
+      return res.status(200).json(recipes)
+    }
+    let filterByName = allRecipes.filter(recipe => recipe.name.toLowerCase().includes(name.toLowerCase().trim()));
+      if(filterByName.length){
+        let recipesDTO = filterByName.map(recipe => {
+          return {
+            id: recipe.id,
+            name: recipe.name,
+            dietTypes: recipe.dietTypes ? recipe.dietTypes : recipe.diets.map(e => e.name),
+            healthScore: recipe.healthScore,
+            image: recipe.image
+          }
+        })
+        return res.status(200).json(recipesDTO)
+      }
+      return res.status(404).send('Recipe not found')
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Lo sentimos en este momento no pudimos traer las recetas..",
-      });
+      // res.status(400).send('Algo salio mal');
+      console.log(error)
   }
+})
+
+router.post("/", async (req, res, next) => {
+  const {  name, summary, healthScore, steps, image, dietTypes } = req.body;
+
+  try {
+    const addRecipe = await Recipe.create({
+      name,
+      summary,
+      healthScore,
+      steps,
+      image
+    });
+
+    let dietTypesRecipeDb = await Diet.findAll({
+      where: {name: dietTypes}
+    })
+    addRecipe.addDiet(dietTypesRecipeDb)
+    res.status(200).send(addRecipe)  
+  } catch (error) {
+    next(error)
+  };
 });
 
-router.post("/recipes", async (req, res) => {
+router.get("/:idReceta", async (req, res) => {
   try {
-    addRecipe(req, res);
-  } catch (error) {
-    res.status(500).json({ error: 'Lo sentimos pero algo salio mal y no pudimos terminar de crear la receta.' });
-  }
-});
-
-router.get("/recipes/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    getRecipeById(res, id);
-  } catch (error) {
-    res.status(500).json({ error: 'No pudimos acceder a la receta solicitada.' });
+    const { idReceta } = req.params;
+    const foundRecipe = await getRecipeById(idReceta)
+    foundRecipe ? res.status(200).json(foundRecipe) : res.status(404).send('Recipe is not found.');
+  } catch (e) {
+    res.status(400).send('Something goes wrong..');
   }
 });
 

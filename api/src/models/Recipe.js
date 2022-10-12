@@ -8,21 +8,31 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      validate:{
+        notNull: {
+          message: 'Empty is not allowed.'
+        }
+      }
     },
-    title: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
     summary: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate:{
+        notNull: {
+          message: 'Empty is not allowed.'
+        }
+      }
     },
     healthScore: { 
       type: DataTypes.INTEGER,
     },
-    analyzedInstructions: {
-      type: DataTypes.TEXT,
+    steps: {
+      type: DataTypes.STRING,
     },
     image: {
       type:DataTypes.STRING,
