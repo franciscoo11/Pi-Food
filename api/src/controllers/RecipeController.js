@@ -7,7 +7,7 @@ const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } = 
 
 const getApiRecipes = async () => {
   const apiRecipes = await axios.get(
-    `${API_URL}complexSearch?apiKey=${API_KEY7}&addRecipeInformation=true&number=100`
+    `${API_URL}complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&number=100`
   );
   const formatApiRecipes = await apiRecipes.data.results.map((recipe) => {
     return {

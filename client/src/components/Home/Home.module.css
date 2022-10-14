@@ -2,11 +2,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+
 .card {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    margin-left: 80px;
+    margin-left: 45px;
 }
 
 .tituloHome {
@@ -15,16 +15,16 @@
     font-size: 40px;
     font-style: italic;
     font-family:Georgia, 'Times New Roman', Times, serif;
-    margin-right: 200px;
+    margin-right: 280px;
 }
 
 .btn {
     margin-top: 25px;
-    margin-left: 450px;
+    margin-left: 500px;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 17px;
-    color: #adacac ;
+    color: #d0d8c6 ;
     width: 110px;
     height: 40px;
     background-color: #0b412c ;
@@ -35,7 +35,7 @@
     box-shadow: 0 5px 15px rgba(0,0,0,1);
 }
 .btn:hover{
-    background-color:#00ce7f;
+    background-color:#069e64;
 }
 
 label{

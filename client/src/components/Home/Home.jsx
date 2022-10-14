@@ -31,13 +31,13 @@ function handleSort(e){
     e.preventDefault();
     dispatch(orderByName(e.target.value))
     setCurrentPage(1);
-    setOrden(`Ordenado ${e.target.value}`)
+    setOrden(`Order ${e.target.value}`)
 }
 function handleSortScore(e){
     e.preventDefault();
     dispatch(orderByHealthScore(e.target.value))
     setCurrentPage(1);
-    setOrden(`Ordenado ${e.target.value}`)
+    setOrden(`Order ${e.target.value}`)
 }
 
 function handleFilterDiets(e){
@@ -52,11 +52,11 @@ return(
                 <h1 className={styles.tituloHome}>Amazing food!</h1>
         
             <Link to = '/recipe'>
-                <button className={styles.btn}> Creat recipe </button>            
+                <button className={styles.btn}> Add recipe </button>            
             </Link>
-            <Link to = '#'>
+            {/* <Link to = '#'>
                 <button className={styles.btn}> Reset </button>            
-            </Link>    
+            </Link>     */}
         </div>
         <div style={{display:'inline-block', alignItems:'center', width:'60%', marginLeft:'100px', marginTop:"50px" }}>
         <div className={styles.contenedorFiltros} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr'}}>
@@ -93,10 +93,6 @@ return(
             </div>
             </div>
             <SearchBar/>
-            <Pagination
-            recipesPerPage= {recipesPerPage}
-            allRecipes={allRecipes.length}
-            paginado= {paginado} />
         
         <div className={styles.containerCard}>
             
@@ -128,7 +124,11 @@ return(
                    )
            })
           }
-        </div> </div> : <p>Loading...</p>
+        </div>
+        <Pagination
+            recipesPerPage= {recipesPerPage}
+            allRecipes={allRecipes.length}
+            paginado= {paginado} /> </div> : <p>Loading...</p>
 } 
     </div>
     )

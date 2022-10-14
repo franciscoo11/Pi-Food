@@ -1,15 +1,16 @@
 .recipecard {
     margin-top: 10px;
-    background: rgba(0, 0, 0, .8);
+    background: rgb(16, 17, 9);
     position:static;
-    box-shadow: 0px 0px 7px rgb(247, 247, 247);
+    box-shadow: 0px 0px 7px rgb(82, 209, 51);
     border-radius: 10px;
     background-size: cover;
-    background-position: center center ;
+    background-position: center center ; 
 }
+
 .recipecard h1{
     font-size:20px;
-    color:#a3e6f5
+    color:#fafffe
 }
 .recipecard h3{
     font-size:15px;
@@ -30,7 +31,7 @@
     height: 40%;
     margin-top: 10px;
     position:static;
-    border-radius: 1rem;
+    border-radius: 15px;
 }
 
 a:link, a:visited, a:active {

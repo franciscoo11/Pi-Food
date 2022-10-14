@@ -14,13 +14,13 @@ export default function RecipeDetail() {
   useEffect(() => {
     console.log('ENTRE, ACTUALIZE, SALGO')
     dispatch(getRecipeDetail(idRecipe));
-    return dispatch(resetDetail());
+    // return dispatch(resetDetail());
   }, [dispatch,idRecipe]);
   
   console.log(recipe)
   return (
     <div>
-      {recipe.length ? (
+      {recipe.length? (
         <div className={styles.div}>
           <div>
             <h1 className={styles.titulodetail}>{recipe[0].name}</h1>
