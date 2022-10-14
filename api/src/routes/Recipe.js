@@ -26,9 +26,7 @@ router.get('/', async(req,res) => {
         return {
           id: recipe.id,
           name: recipe.name,
-          dietTypes: recipe.dietTypes
-            ? recipe.dietTypes
-            : recipe.diets.map((e) => e.name),
+          diets: recipe.diets,
           healthScore: recipe.healthScore,
           image: recipe.image,
         };
@@ -41,7 +39,7 @@ router.get('/', async(req,res) => {
           return {
             id: recipe.id,
             name: recipe.name,
-            dietTypes: recipe.dietTypes ? recipe.dietTypes : recipe.diets.map(e => e.name),
+            diets: recipe.diets ? recipe.diets : recipe.diets.map(e => e.name),
             healthScore: recipe.healthScore,
             image: recipe.image
           }
@@ -50,13 +48,12 @@ router.get('/', async(req,res) => {
       }
       return res.status(404).send('Recipe not found')
   } catch (error) {
-      // res.status(400).send('Algo salio mal');
-      console.log(error)
+      res.status(400).send('Algo salio mal');
   }
 })
 
-router.post("/", async (req, res, next) => {
-  const {  name, summary, healthScore, steps, image, dietTypes } = req.body;
+router.post("/", async (req, res) => {
+  const { name, summary, healthScore, steps, image, diets, fromDb } = req.body;
 
   try {
     const addRecipe = await Recipe.create({
@@ -64,16 +61,17 @@ router.post("/", async (req, res, next) => {
       summary,
       healthScore,
       steps,
-      image
+      image,
+      fromDb
     });
 
     let dietTypesRecipeDb = await Diet.findAll({
-      where: {name: dietTypes}
+      where: {name: diets}
     })
     addRecipe.addDiet(dietTypesRecipeDb)
-    res.status(200).send(addRecipe)  
+    res.status(201).send('Recipe has been created!')  
   } catch (error) {
-    next(error)
+    res.status(404).send('Sorry something goes wrong.')
   };
 });
 
@@ -83,7 +81,7 @@ router.get("/:idReceta", async (req, res) => {
     const foundRecipe = await getRecipeById(idReceta)
     foundRecipe ? res.status(200).json(foundRecipe) : res.status(404).send('Recipe is not found.');
   } catch (e) {
-    res.status(400).send('Something goes wrong..');
+    res.status(400).send('Sorry something goes wrong..');
   }
 });
 
