@@ -2,7 +2,7 @@ import { GET_ALL_RECIPES } from "../actions/index";
 
 const initialState = {
   recipes: [],
-  detail: {},
+  detail: [],
   diets: [],
   allRecipes: [],
 };
@@ -19,6 +19,16 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         allRecipes: action.payload,
+      };
+    case "GET_DETAIL":
+      return {
+        ...state,
+        detail: action.payload
+      };
+    case "RESET_DETAIL":
+      return {
+        ...state,
+        detail: []
       };
     case "ORDER_BY_NAME":
       let sortedArr =
@@ -46,12 +56,6 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         allRecipes: sortedArr,
       };
-    case "GET_DETAIL":
-      
-      return {
-        ...state,
-        detail: action.payload,
-      };
     case "FILTER_BY_DIET":
       const filterByDiet =
         action.payload === "todas"
@@ -61,7 +65,6 @@ export default function rootReducer(state = initialState, action) {
                 e.diets.includes(action.payload) ||
                 e.diets.map((d) => d.name).includes(action.payload)
             );
-
       return {
         ...state,
         allRecipes: filterByDiet,
@@ -103,12 +106,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         allRecipes: filterRecipes,
       };
-
-    case "RESET_DETAIL":
+    case "GET_DIETS":
       return {
         ...state,
-        detail: action.payload,
-      };
+        diets: action.payload,
+      }
     default:
       return state;
   }

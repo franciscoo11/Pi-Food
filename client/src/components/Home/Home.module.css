@@ -15,12 +15,12 @@
     font-size: 40px;
     font-style: italic;
     font-family:Georgia, 'Times New Roman', Times, serif;
-    margin-right: 280px;
+    margin-right: 550px; 
 }
 
 .btn {
     margin-top: 25px;
-    margin-left: 500px;
+    margin-left: 600px;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 17px;
@@ -29,10 +29,10 @@
     height: 40px;
     background-color: #0b412c ;
     border: none;
-    border-radius: 7px;
+    border-radius: 9px;
     cursor: pointer;
     transition: .3s ease all;
-    box-shadow: 0 5px 15px rgba(0,0,0,1);
+    box-shadow: 0 5px 15px rgba(69, 155, 35, 0.925);
 }
 .btn:hover{
     background-color:#069e64;
@@ -45,7 +45,7 @@ label{
     font-style: italic;
     font-family:Georgia, 'Times New Roman', Times, serif;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 9px;
 }
 .contenedorFiltros  {
     width: 100%;
@@ -57,7 +57,7 @@ label{
     grid-row: 1;
 }
 .lbpuntuacion{
-    margin-left:120px
+    margin-left:40px
 }
 .alfabeticamente {
     grid-column: 1 ;

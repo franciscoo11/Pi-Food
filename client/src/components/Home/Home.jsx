@@ -43,39 +43,40 @@ function handleSortScore(e){
 function handleFilterDiets(e){
     e.preventDefault();
     dispatch(filterByDiet(e.target.value))
+    setCurrentPage(1)
+    setOrden(`Order ${e.target.value}`)
 }
 return(
     <div >
-        {currentRecipes ?
         <div>
-            <div style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr', }}>
+            <div style={{display:'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows:'1fr', }}>
                 <h1 className={styles.tituloHome}>Amazing food!</h1>
         
-            <Link to = '/recipe'>
+            <Link to = '/buildrecipe'>
                 <button className={styles.btn}> Add recipe </button>            
             </Link>
             {/* <Link to = '#'>
                 <button className={styles.btn}> Reset </button>            
             </Link>     */}
         </div>
-        <div style={{display:'inline-block', alignItems:'center', width:'60%', marginLeft:'100px', marginTop:"50px" }}>
+        <div style={{display:'inline-block', alignItems:'center', width:'60%', marginLeft:'150px', marginTop:"50px"}}>
         <div className={styles.contenedorFiltros} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr'}}>
             <div className={styles.puntuacion} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr', }}>
-                <label className={styles.lbpuntuacion}>Order healthScore</label>
-                <select className='btn' onClick={e => {handleSortScore(e)}}>
+                <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order by healthScore</label>
+                <select className={styles.btn} onClick={e => {handleSortScore(e)}}>
                     <option value = 'min' >0-100</option>
                     <option value = 'may'>100-0</option>
                 </select>
             </div>
             <div className={styles.alfabeticamente} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr', }}>
-                <label className={styles.lbpuntuacion}>Order A-Z</label>
-                <select className='btn' onClick={e => {handleSort(e)}}>
+                <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order A-Z</label>
+                <select className={styles.btn} onClick={e => {handleSort(e)}}>
                     <option value = 'asc' >A-Z</option>
                     <option value = 'desc'>Z-A</option>
                 </select>
             </div>
             <div className={styles.recetas} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr', }}>
-            <label style={{marginLeft: '15px'}}>Filter by Type Diet</label>
+            <label style={{marginLeft: '15px'}}>Filter by Diets</label>
             <select className={styles.btn} onChange={e => handleFilterDiets(e)}>
                 <option value ='todas'>Todas</option>
                 <option value ='vegetarian'>Vegetarian</option>
@@ -92,11 +93,17 @@ return(
             </div>
             </div>
             </div>
-            <SearchBar/>
-        
-        <div className={styles.containerCard}>
+            <div style={{marginTop: '35px'}}>
+                <SearchBar/>
+            </div>
             
-         { 
+            <Pagination
+            recipesPerPage= {recipesPerPage}
+            allRecipes={allRecipes.length}
+            paginado= {paginado} />
+        <div className={styles.containerCard}>
+         
+         { !currentRecipes.length ? <p> Loading.. </p> :
            currentRecipes?.map( e =>{
             
             let formatDietsToStr = function() {
@@ -123,13 +130,9 @@ return(
                    </div>
                    )
            })
-          }
+        }
         </div>
-        <Pagination
-            recipesPerPage= {recipesPerPage}
-            allRecipes={allRecipes.length}
-            paginado= {paginado} /> </div> : <p>Loading...</p>
-} 
+         </div> 
     </div>
     )
 }

@@ -2,28 +2,28 @@
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 12px;
-    color: rgb(0, 0, 0);
-    width: 60px;
+    color: #d0d8c6;
+    width: 90px;
     height: 30px;
-    background-color: #4cb68d;
+    background-color: #0b412c;
     border: none;
-    border-radius: 7px;
+    border-radius: 999px;
     cursor: pointer;
     transition: .3s ease all;
     margin-left: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,1);
+    box-shadow: 0 5px 15px rgb(0, 0, 0);
 }
-.btn1:hover{
-    background-color:#00ce7f;
+.btn1:hover {
+    background: #069e64;
 }
 input {
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 12px;
     border: none;
-    background-color: #b7e4d3;
+    background-color: #83f7ca;
     border-radius: 10px;
     padding: 5px;
     margin: 20px;
-    
+    width: 300px;
 }

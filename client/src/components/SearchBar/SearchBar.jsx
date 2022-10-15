@@ -9,8 +9,7 @@ export default function SearchBar(){
     const [name,setName] = useState('')
 
     function handleInput(e){
-        e.preventDefault()
-        setName(e.target.value)
+        setName(e.target.value);
     }
 
     function handleSubmit(e){
@@ -21,7 +20,10 @@ export default function SearchBar(){
     return (
         <div>
             <input
+            id="searchInput"
             type = 'text'
+            autoComplete="off"
+            value={name}
             placeholder = 'Find your plate...'
             onChange = {(e) => handleInput(e)}
             />

@@ -8,7 +8,7 @@ export const GET_DIETS = "GET_DIETS";
 export function getAllRecipes() {
   return async function (dispatch) {
     const response = await axios.get("http://localhost:3001/recipes");
-    dispatch({ type: GET_ALL_RECIPES, payload: response.data });
+    return dispatch({ type: GET_ALL_RECIPES, payload: response.data });
   };
 }
 
@@ -17,17 +17,15 @@ export function getRecipeSearch(name) {
     const response = await axios.get(
       `http://localhost:3001/recipes?name=${name}`
     );
-    dispatch({ type: "RECIPE_SEARCH", payload: response.data });
+    return dispatch({ type: "RECIPE_SEARCH", payload: response.data });
   };
 }
 
 export function getDiets() {
   return async function (dispatch) {
-    const info = await axios("http://localhost:3001/diets", {});
-    const response = info.data.map((e) => {
-      return e.name;
-    });
-    return dispatch({ type: "GET_TYPES", payload: response });
+    const response = await axios("http://localhost:3001/diets");
+    // const formatResponse = response.data.map(d => d.name)
+    return dispatch({ type: "GET_DIETS", payload: response.data });
   };
 }
 
@@ -38,10 +36,10 @@ export function filterByDiet(payload) {
   };
 }
 
-export function resetDetail(){
+export function resetDetail(payload){
   return {
     type: 'RESET_DETAIL',
-    payload: []
+    payload,
   }
 }
 
@@ -81,6 +79,4 @@ export function getRecipeDetail(id) {
       payload: response.data,
     });
   };
-
-  
 }
