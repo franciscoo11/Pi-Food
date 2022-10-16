@@ -27,25 +27,24 @@ useEffect(() =>{
     dispatch(getAllRecipes())
 },[dispatch])
 
-function handleSort(e){
-    e.preventDefault();
+const handleSort = (e) => {
     dispatch(orderByName(e.target.value))
     setCurrentPage(1);
     setOrden(`Order ${e.target.value}`)
 }
-function handleSortScore(e){
-    e.preventDefault();
+
+const handleSortScore = (e) => {
     dispatch(orderByHealthScore(e.target.value))
     setCurrentPage(1);
     setOrden(`Order ${e.target.value}`)
 }
 
-function handleFilterDiets(e){
-    e.preventDefault();
+const handleFilterDiets = (e) => {
     dispatch(filterByDiet(e.target.value))
     setCurrentPage(1)
     setOrden(`Order ${e.target.value}`)
 }
+
 return(
     <div >
         <div>
@@ -63,22 +62,24 @@ return(
         <div className={styles.contenedorFiltros} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr'}}>
             <div className={styles.puntuacion} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr', }}>
                 <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order by healthScore</label>
-                <select className={styles.btn} onClick={e => {handleSortScore(e)}}>
-                    <option value = 'min' >0-100</option>
-                    <option value = 'may'>100-0</option>
+                <select className={styles.btn} onChange={handleSortScore}>
+                    <option>Click me ⇩</option>
+                    <option value = 'asc' >0-100</option>
+                    <option value = 'desc'>100-0</option>
                 </select>
             </div>
             <div className={styles.alfabeticamente} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr', }}>
                 <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order A-Z</label>
-                <select className={styles.btn} onClick={e => {handleSort(e)}}>
-                    <option value = 'asc' >A-Z</option>
+                <select className={styles.btn} onChange={handleSort}>
+                    <option>Click me ⇩</option>
+                    <option value = 'asc'>A-Z</option>
                     <option value = 'desc'>Z-A</option>
                 </select>
             </div>
             <div className={styles.recetas} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr', }}>
-            <label style={{marginLeft: '15px'}}>Filter by Diets</label>
-            <select className={styles.btn} onChange={e => handleFilterDiets(e)}>
-                <option value ='todas'>Todas</option>
+            <label style={{marginLeft: '15px'}} className={styles.lbdiets}>Filter by Diets</label>
+            <select className={styles.btn} onChange={handleFilterDiets}>
+                <option value ='all'>All</option>
                 <option value ='vegetarian'>Vegetarian</option>
                 <option value ='vegan'>Vegan</option>
                 <option value ='lacto ovo vegetarian'>Ovo vegetarian</option>
@@ -87,14 +88,15 @@ return(
                 <option value ='pescatarian'>Pescatarian </option>
                 <option value ='paleolithic'>Paleolithic </option>
                 <option value ='primal'>Primal </option>
-                <option value ='low fodmap'>Low fodmap </option>
+                <option value ='ketogenic'>Ketogenic </option>
                 <option value ='whole 30'>Whole 30 </option>
+                <option value ='fodmap friendly'>Fodmap friendly </option>
             </select>
             </div>
             </div>
             </div>
             <div style={{marginTop: '35px'}}>
-                <SearchBar/>
+                <SearchBar />
             </div>
             
             <Pagination
@@ -125,7 +127,7 @@ return(
             return (
                <div key={e.id}  className={styles.card}>
                     
-                   <RecipeCard id={e.id} image={e.image} name={e.name} tipoDeDieta={formatDietsToStr()} puntuacion={e.healthScore}/>
+                   <RecipeCard id={e.id} image={ e.fromDb ? '' : e.image} name={e.name} tipoDeDieta={formatDietsToStr()} puntuacion={e.healthScore}/>
                    
                    </div>
                    )

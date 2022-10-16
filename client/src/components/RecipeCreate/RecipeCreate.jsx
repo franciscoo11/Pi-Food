@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { postRecipes, getDiets } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
+import styles from './RecipeCreate.module.css';
 
 const defaultForm = {
-  title: "",
+  name: "",
   summary: "",
   healthScore: 0,
   diets: [],
@@ -27,7 +28,7 @@ export function validate(input) {
   return errors;
 }
 
-export default function CreateRecipe() {
+export default function RecipeCreate() {
   const [input, setInput] = useState(defaultForm);
   const [errors, setErrors] = useState({});
   const diets = useSelector((state) => state.diets);
@@ -44,11 +45,11 @@ export default function CreateRecipe() {
       [e.target.name]: e.target.value,
     }));
 
-    let objError = validate({
+    let temporalObj = validate({
       ...input,
       [e.target.name]: e.target.value,
     });
-    setErrors(objError);
+    setErrors(temporalObj);
   };
 
   function handleCheckDiets(e) {
@@ -62,94 +63,106 @@ export default function CreateRecipe() {
     }
   }
 
-  const handleDelete = (e, el) => {
-    e.preventDefault();
-    setInput({
-        ...input,
-        diets : input.diets.filter( ele => ele !== el)
-    })
-  }
+//   const handleDelete = (e, el) => {
+//     e.preventDefault();
+//     setInput({
+//         ...input,
+//         diets : input.diets.filter( ele => ele !== el)
+//     })
+//   }
 
   const handleOnSubmit = async function (e) {
     e.preventDefault();
-    dispatch(postRecipes(JSON.stringify(input)));
+    dispatch(postRecipes(input));
     setInput(defaultForm);
     alert("Receta creada exitosamente");
     history.push("/home");
   };
 
   return (
-    <div className="main">
-      <form className="form" onSubmit={(e) => handleOnSubmit(e)}>
+    diets.length ?
+    <div className={styles.mainContainer}>
+      <form className={styles.form} onSubmit={(e) => handleOnSubmit(e)}>
         <div>
-          <label htmlFor="name">Name: </label>
+            <h2>Create Recipe</h2>
+        </div>
+        <div>
+          <label className={styles.lbl} htmlFor="name">Name: </label>
           <input
+            className={styles.inpt}
             type="text"
             value={input.name}
             name="name"
             onChange={(e) => handleInputChange(e)}
             required
           />
+          {errors.name && <p className="red">{errors.name}</p>}
         </div>
 
         <div>
-          <label htmlFor="name">Summary: </label>
+          <label className={styles.lbl} htmlFor="summary">Summary: </label>
           <input
+            className={styles.inpt}
             type="text"
             value={input.summary}
             name="summary"
             onChange={(e) => handleInputChange(e)}
             required
           />
+          {errors.summary && <p className="red">{errors.summary}</p>}
         </div>
 
         <div>
-          <label htmlFor="name">Image url: </label>
+          <label className={styles.lbl} htmlFor="image">Image url: </label>
           <input
+            className={styles.inpt}
             type="text"
             value={input.image}
             name="image"
             onChange={(e) => handleInputChange(e)}
-            required
           />
         </div>
 
         <div>
-          <label htmlFor="name">HealthScore: </label>
+          <label className={styles.lbl} htmlFor="healthScore">HealthScore: </label>
           <input
+            className={styles.inpt}
             type="number"
             min="1"
             max="100"
             value={input.healthScore}
-            name="name"
+            name="healthScore"
             onChange={(e) => handleInputChange(e)}
             required
           />
+          {errors.healthScore && <p className="red">{errors.healthScore}</p>}
         </div>
 
         <div>
-          <label htmlFor="name">Steps: </label>
+          <label className={styles.lbl} htmlFor="steps">Steps: </label>
           <textarea
+            className={styles.textArea}
             rows="4"
             cols="50"
             value={input.steps}
-            name="name"
+            name="steps"
             onChange={(e) => handleInputChange(e)}
           ></textarea>
         </div>
         <div
-          className=""
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "1fr 1fr",
+            gridTemplateRows: "1fr",
             marginTop: 15,
+            marginLeft: '65px'
           }}
         >
           {diets.map((diet) => (
-            <label>
+            <label className={styles.lbl}>
               {diet.name}{" "}
               <input
+                className={styles.inpt}
                 type="checkbox"
                 name={diet.name}
                 value={diet.name}
@@ -158,8 +171,8 @@ export default function CreateRecipe() {
             </label>
           ))}
         </div>
-        <button type="submit">Create</button>
+        <button className={styles.btn5} type="submit">Create</button>
       </form>
-    </div>
+    </div> : <p>Loading..</p>
   );
 }

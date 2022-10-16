@@ -21,7 +21,7 @@ export default function RecipeDetail() {
   return (
     <div>
       {recipe.healthScore ? (
-        <div className={styles.div} style={{ marginTop: "150px" }}>
+        <div className={styles.div} style={{ marginTop: "80px" }}>
           <div>
             <h1 className={styles.titulodetail}>{recipe.name}</h1>
           </div>

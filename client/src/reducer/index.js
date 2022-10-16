@@ -1,10 +1,12 @@
-import { GET_ALL_RECIPES } from "../actions/index";
+import { GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, 
+  POST_RECIPE,
+  FILTER_BY_HEALTHSCORE, FILTER_BY_DIET, ORDER_BY_NAME, FILTER_BY_NAME } from "../actions";
 
 const initialState = {
   recipes: [],
   detail: [],
   diets: [],
-  allRecipes: [],
+  allRecipes: []
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -13,105 +15,70 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         recipes: action.payload,
-        allRecipes: action.payload,
+        allRecipes: action.payload
       };
-    case "RECIPE_SEARCH":
+
+    case GET_DIETS:
       return {
         ...state,
-        allRecipes: action.payload,
+        diets: action.payload
       };
-    case "GET_DETAIL":
+    
+    case FILTER_BY_DIET:
+      const fin = action.payload === 'all' ? state.recipes : state.recipes.filter((e) => {
+        return e.diets.includes(action.payload) || e.diets.map((e) => e.name ).includes(action.payload)
+      })
+      return {
+        ...state,
+        allRecipes: fin
+      };
+
+    case FILTER_BY_NAME:
+      return {
+        ...state,
+        allRecipes: action.payload
+      };
+
+    case FILTER_BY_HEALTHSCORE:
+      const healthScoreSorted = action.payload === 'asc' ? 
+      state.recipes.sort(function(a,b) {
+        return a.healthScore > b.healthScore ? 1 : b.healthScore > a.healthScore ? -1 : 0
+      }) : 
+      state.recipes.sort(function(a,b) {
+        return a.healthScore > b.healthScore ? -1 : b.healthScore > a.healthScore ? 1 : 0
+      });
+      return {
+        ...state,
+        allRecipes: healthScoreSorted
+      };
+
+    case ORDER_BY_NAME:
+      const nameSorted = action.payload === 'asc' ?
+      state.recipes.sort(function(a,b) {
+        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : b.name.toLowerCase() > a.name.toLowerCase() ? -1 : 0
+      }) :
+      state.recipes.sort(function(a,b) {
+        return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : b.name.toLowerCase() > a.name.toLowerCase() ? 1 : 0
+      });
+      return {
+        ...state,
+        allRecipes: nameSorted
+      };
+
+    case GET_RECIPE_DETAIL:
       return {
         ...state,
         detail: action.payload
       };
-    case "RESET_DETAIL":
+    
+    case POST_RECIPE:
       return {
-        ...state,
-        detail: []
+        ...state
       };
-    case "ORDER_BY_NAME":
-      let sortedArr =
-        action.payload === "asc"
-          ? state.allRecipes.sort(function (a, b) {
-              if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return 1;
-              }
-              if (b.name.toLowerCase() > a.name.toLowerCase()) {
-                return -1;
-              }
-              return 0;
-            })
-          : state.allRecipes.sort(function (a, b) {
-              if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return -1;
-              }
-              if (b.name.toLowerCase() > a.name.toLowerCase()) {
-                return 1;
-              }
-              return 0;
-            });
 
-      return {
-        ...state,
-        allRecipes: sortedArr,
-      };
-    case "FILTER_BY_DIET":
-      const filterByDiet =
-        action.payload === "todas"
-          ? state.recipes.filter((e) => e.name)
-          : state.recipes.filter(
-              (e) =>
-                e.diets.includes(action.payload) ||
-                e.diets.map((d) => d.name).includes(action.payload)
-            );
-      return {
-        ...state,
-        allRecipes: filterByDiet,
-      };
-    case "ORDER_BY_HEALTH_SCORE":
-      let score =
-        action.payload === "min"
-          ? state.allRecipes.sort(function (a, b) {
-              if (a.healthScore > b.healthScore) {
-                return 1;
-              }
-              if (b.healthScore > a.healthScore) {
-                return -1;
-              }
-              return 0;
-            })
-          : state.allRecipes.sort(function (a, b) {
-              if (a.healthScore > b.healthScore) {
-                return -1;
-              }
-              if (b.healthScore > a.healthScore) {
-                return 1;
-              }
-              return 0;
-            });
-      return {
-        ...state,
-        allRecipes: score,
-      };
-    case "POST_RECIPE":
-      return {
-        ...state,
-      };
-    case "FILTER_BY_DB":
-      const filterRecipes = state.allRecipes.filter(
-        (recipe) => recipe.fromDb === true
-      );
-      return {
-        ...state,
-        allRecipes: filterRecipes,
-      };
-    case "GET_DIETS":
-      return {
-        ...state,
-        diets: action.payload,
-      }
     default:
-      return state;
+      return {
+        ...state
+      }
   }
 }

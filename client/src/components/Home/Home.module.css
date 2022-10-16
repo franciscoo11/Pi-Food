@@ -10,7 +10,7 @@
 }
 
 .tituloHome {
-    color:#1df3a4 ;
+    color:#66fcf1 ;
     margin-top: 10px;
     font-size: 40px;
     font-style: italic;
@@ -24,15 +24,15 @@
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 17px;
-    color: #d0d8c6 ;
+    color: #C5C6C7;
     width: 110px;
     height: 40px;
-    background-color: #0b412c ;
+    background-color: #45A29E ;
     border: none;
     border-radius: 9px;
     cursor: pointer;
     transition: .3s ease all;
-    box-shadow: 0 5px 15px rgba(69, 155, 35, 0.925);
+    box-shadow: 0 5px 15px rgba(12, 164, 190, 0.925);
 }
 .btn:hover{
     background-color:#069e64;
