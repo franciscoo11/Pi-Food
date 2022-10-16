@@ -8,7 +8,7 @@ const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API
 const getApiRecipes = async () => {
   try {
     const apiRecipes = await axios.get(
-      `${API_URL}complexSearch?apiKey=${API_KEY4}&addRecipeInformation=true&number=100`
+      `${API_URL}complexSearch?apiKey=${API_KEY3}&addRecipeInformation=true&number=100`
     );
     const formatApiRecipes = await apiRecipes.data.results.map((recipe) => {
       return {
@@ -65,7 +65,7 @@ const getRecibeById = async(req,res,next) => {
     const allRecipes = await getAllRecipes(id);
     if(id){
       const findRecipe = allRecipes.find(recipe => recipe.id == id);
-      findRecipe ? res.status(200).send(findRecipe) : res.status(404).json({msg: 'Recipe not found.'});
+      findRecipe ? res.status(200).json(findRecipe) : res.status(404).json({msg: 'Recipe not found.'});
     }
   } catch (error) {
     next(error)
@@ -78,7 +78,7 @@ const getAllRecipesOrFilterByName = async (req,res,next) => {
     const allRecipes = await getAllRecipes();
     if(name){
       const filterByName = allRecipes.filter(recipe => recipe.name.toLowerCase().includes(name.toLowerCase().trim()));
-      return filterByName.length ? res.status(200).json(filterByName) : res.status(404).json({msg: 'Recipe not found.'})
+      return filterByName.length ? res.status(200).json(filterByName) : res.status(404).json({msg: 'Recipe not matched with the name sended.'})
     }
     res.status(200).json(allRecipes)
   } catch (error) {
