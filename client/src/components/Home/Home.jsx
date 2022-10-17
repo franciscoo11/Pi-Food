@@ -48,15 +48,14 @@ const handleFilterDiets = (e) => {
 return(
     <div >
         <div>
-            <div style={{display:'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows:'1fr', }}>
-                <h1 className={styles.tituloHome}>Amazing food!</h1>
-        
-            <Link to = '/buildrecipe'>
-                <button className={styles.btn}> Add recipe </button>            
-            </Link>
-            {/* <Link to = '#'>
-                <button className={styles.btn}> Reset </button>            
-            </Link>     */}
+            <div style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr', }}>
+                
+                <h1 className={styles.tituloHome} style={{gridColumn: '1', gridRow: '1'}}>Amazing food!</h1>
+
+                <Link to = '/buildrecipe' >
+                    <button className={styles.btn} style={{marginRight: '150px'}}>Add recipe</button>     
+                </Link>
+                <button className={styles.btn} style={{gridColumn: '3', gridRow: '1', marginRight: '16px'}}>Reset</button>
         </div>
         <div style={{display:'inline-block', alignItems:'center', width:'60%', marginLeft:'150px', marginTop:"50px"}}>
         <div className={styles.contenedorFiltros} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr'}}>
@@ -95,46 +94,40 @@ return(
             </div>
             </div>
             </div>
-            <div style={{marginTop: '35px'}}>
-                <SearchBar />
-            </div>
-            
-            <Pagination
-            recipesPerPage= {recipesPerPage}
-            allRecipes={allRecipes.length}
-            paginado= {paginado} />
+            <div style={{marginTop: '25px'}}>
+                    <SearchBar />
+            </div> 
         <div className={styles.containerCard}>
          
          { !currentRecipes.length ? <p> Loading.. </p> :
            currentRecipes?.map( e =>{
             
-            let formatDietsToStr = function() {
+            let formatDiets = function() {
             let aux = [];
             if(e.diets.length <= 0) return aux = "Diets are empty.";
-            if(e.diets[0].name){
-            aux = e.diets.map(el => {
-            return el.name
-            })
-            return aux.join(", ");
+            if(!e.diets[0].name){
+                aux = e.diets;
+                return aux.join(", ");
             }
-            else{ 
-            aux = e.diets;
+            aux = e.diets.map(el =>  el.name)
             return aux.join(", ");
-           } 
-           
-        }   
-        
+            
+        }
             return (
                <div key={e.id}  className={styles.card}>
                     
-                   <RecipeCard id={e.id} image={ e.fromDb ? '' : e.image} name={e.name} tipoDeDieta={formatDietsToStr()} puntuacion={e.healthScore}/>
+                   <RecipeCard id={e.id} image={ e.fromDb ? 'https://www.ayresdesalta.com.ar/images/desayuno.png' : e.image} name={e.name} tipoDeDieta={formatDiets()} puntuacion={e.healthScore}/>
                    
                    </div>
                    )
            })
         }
         </div>
-         </div> 
+        <Pagination
+            recipesPerPage= {recipesPerPage}
+            allRecipes={allRecipes.length}
+            paginado= {paginado} />
+        </div> 
     </div>
     )
 }

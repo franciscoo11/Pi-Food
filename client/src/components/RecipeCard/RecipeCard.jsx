@@ -12,7 +12,7 @@ export default function RecipeCard({
   return (
     <div style={{ margin: 10 }}>
       <div
-        style={{ width: 330, height: 340, padding: 10 }}
+        style={{ width: 330, height: 380, padding: 10 }}
         className={styles.recipecard}
       >
         <div>

@@ -20,6 +20,7 @@ export default function SearchBar(){
     return (
         <div>
             <input
+            className={styles.searchInput}
             id="searchInput"
             type = 'text'
             autoComplete="off"

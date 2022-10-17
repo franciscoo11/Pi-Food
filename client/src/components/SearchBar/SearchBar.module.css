@@ -2,26 +2,26 @@
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 12px;
-    color: #d0d8c6;
+    color: #e6e5f0;
     width: 90px;
     height: 30px;
-    background-color: #0b412c;
+    background-color: #1d63b4;
     border: none;
     border-radius: 999px;
     cursor: pointer;
     transition: .3s ease all;
     margin-left: 5px;
-    box-shadow: 0 5px 15px rgb(0, 0, 0);
+    box-shadow: 0 5px 15px rgba(9, 202, 236, 0.925);
 }
 .btn1:hover {
-    background: #069e64;
+    background: #24afe6;
 }
-input {
+.searchInput {
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 12px;
     border: none;
-    background-color: #83f7ca;
+    background-color: #6beaf3;
     border-radius: 10px;
     padding: 5px;
     margin: 20px;

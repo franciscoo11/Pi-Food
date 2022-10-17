@@ -34,6 +34,10 @@ export default function RecipeDetail() {
             />
           </div>
           <div className={styles.detalles}>
+            <h3>Diets:</h3>
+            <h4>{ recipe.diets[0].name ? recipe.diets.map(d => d.name).join(', ') : recipe.diets.join(', ') }
+            </h4>
+            <br />
             <h3>Description of the plate: </h3>
             <h4
               dangerouslySetInnerHTML={{ __html: recipe.summary }} //replace(/<[^>]*>?/g, "")

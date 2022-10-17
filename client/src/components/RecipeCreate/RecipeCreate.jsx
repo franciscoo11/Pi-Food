@@ -71,7 +71,7 @@ export default function RecipeCreate() {
 //     })
 //   }
 
-  const handleOnSubmit = async function (e) {
+  const handleOnSubmit = function (e) {
     e.preventDefault();
     dispatch(postRecipes(input));
     setInput(defaultForm);
@@ -81,52 +81,53 @@ export default function RecipeCreate() {
 
   return (
     diets.length ?
-    <div className={styles.mainContainer}>
+    <div>
+      <Link to='/home'>
+        <button className={styles.btn2} style={{position: 'absolute', left: '50px', top: '35px'}}>BACK</button>
+      </Link>
+      
+      <h1 id={styles.titulo}>Create Recipe</h1>
+      <div className={styles.container}>
+
       <form className={styles.form} onSubmit={(e) => handleOnSubmit(e)}>
-        <div>
-            <h2>Create Recipe</h2>
-        </div>
-        <div>
-          <label className={styles.lbl} htmlFor="name">Name: </label>
-          <input
-            className={styles.inpt}
+
+          <div>
+            <label htmlFor="name">Name: </label>
+            <input
             type="text"
             value={input.name}
             name="name"
             onChange={(e) => handleInputChange(e)}
             required
-          />
-          {errors.name && <p className="red">{errors.name}</p>}
-        </div>
-
-        <div>
-          <label className={styles.lbl} htmlFor="summary">Summary: </label>
+            />
+            {errors.name && <p className={styles.danger}>{errors.name}</p>}
+          </div>
+        
+          <div>
+          <label htmlFor="summary">Summary: </label>
           <input
-            className={styles.inpt}
             type="text"
             value={input.summary}
             name="summary"
             onChange={(e) => handleInputChange(e)}
             required
           />
-          {errors.summary && <p className="red">{errors.summary}</p>}
-        </div>
+          {errors.summary && <p className={styles.danger}>{errors.summary}</p>}
+          </div>
 
-        <div>
-          <label className={styles.lbl} htmlFor="image">Image url: </label>
+          <div>
+          <label htmlFor="image">Image url: </label>
           <input
-            className={styles.inpt}
             type="text"
             value={input.image}
             name="image"
             onChange={(e) => handleInputChange(e)}
           />
-        </div>
-
-        <div>
-          <label className={styles.lbl} htmlFor="healthScore">HealthScore: </label>
+          </div>
+      
+          <div>
+          <label htmlFor="healthScore">HealthScore: </label>
           <input
-            className={styles.inpt}
             type="number"
             min="1"
             max="100"
@@ -135,44 +136,33 @@ export default function RecipeCreate() {
             onChange={(e) => handleInputChange(e)}
             required
           />
-          {errors.healthScore && <p className="red">{errors.healthScore}</p>}
-        </div>
-
-        <div>
-          <label className={styles.lbl} htmlFor="steps">Steps: </label>
+          {errors.healthScore && <p className={styles.danger}>{errors.healthScore}</p>}
+          </div>
+        
+          <div>
+          <label htmlFor="steps">Steps: </label>
           <textarea
-            className={styles.textArea}
             rows="4"
             cols="50"
             value={input.steps}
             name="steps"
             onChange={(e) => handleInputChange(e)}
           ></textarea>
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "1fr",
-            marginTop: 15,
-            marginLeft: '65px'
-          }}
-        >
-          {diets.map((diet) => (
-            <label className={styles.lbl}>
-              {diet.name}{" "}
-              <input
-                className={styles.inpt}
-                type="checkbox"
-                name={diet.name}
-                value={diet.name}
-                onChange={(e) => handleCheckDiets(e)}
-              />{" "}
-            </label>
-          ))}
-        </div>
-        <button className={styles.btn5} type="submit">Create</button>
+          </div>
+
+           <div className={styles.check} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr 1fr 1fr', marginTop:'15px'}}>
+              {
+                diets.map(diet => (
+                  <label>{diet.name} <input type='checkbox' name={diet.name} value={diet.name} onChange={e => handleCheckDiets(e)}/></label>
+                ))
+              }
+          </div>
+
+        <button className={styles.btn2} type="submit">Create</button>
       </form>
+
+
+      </div>
     </div> : <p>Loading..</p>
   );
 }
