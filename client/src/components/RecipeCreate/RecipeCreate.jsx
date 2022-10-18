@@ -86,7 +86,7 @@ export default function RecipeCreate() {
         <button className={styles.btn2} style={{position: 'absolute', left: '50px', top: '35px'}}>BACK</button>
       </Link>
       
-      <h1 id={styles.titulo}>Create Recipe</h1>
+      <h1 className={styles.titulo}>Create Recipe</h1>
       <div className={styles.container}>
 
       <form className={styles.form} onSubmit={(e) => handleOnSubmit(e)}>
@@ -153,7 +153,7 @@ export default function RecipeCreate() {
            <div className={styles.check} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr 1fr 1fr', marginTop:'15px'}}>
               {
                 diets.map(diet => (
-                  <label>{diet.name} <input type='checkbox' name={diet.name} value={diet.name} onChange={e => handleCheckDiets(e)}/></label>
+                  <label key={diet.name}>{diet.name} <input type='checkbox' name={diet.name} value={diet.name} onChange={e => handleCheckDiets(e)}/></label>
                 ))
               }
           </div>

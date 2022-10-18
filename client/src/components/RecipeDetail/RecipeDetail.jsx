@@ -46,8 +46,8 @@ export default function RecipeDetail() {
 
             <h3>Step by step: </h3>
             <h4>
-              {recipe.steps?.length === 0
-                ? "No incluye instrucciones"
+              {!recipe.steps ? 
+                "No incluye instrucciones"
                 : recipe.steps}
             </h4>
             <br></br>
@@ -55,6 +55,7 @@ export default function RecipeDetail() {
             <h4>{recipe.healthScore}</h4>
           </div>
         </div>
+        
       ) : (
         <div>
           <h2>Loading..</h2>

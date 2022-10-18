@@ -1,5 +1,5 @@
 .titulodetail {
-    color:#90ffd4 ;
+    color:#66fcf1 ;
     margin-top: 10px;
     font-size: 50px;
     font-style: italic;
@@ -24,14 +24,15 @@
     text-align: center;
     padding: 16px 14px 18px;
     color: #fff;
-    background-color: #15883e;
+    background-color: #1d63b4;
     height: 48px;
 }
 .btn5:hover{
-    background-color: #1db954;
+    background-color: #24afe6;
 }
 
 .div{
+    border-radius: 15px;
     max-width: 90%;
     max-height: 40%;
     margin-left: 5%;
@@ -45,7 +46,7 @@
     display: inline-block;
     max-width:90%;
     text-align: justify;
-    color:#5fce3d;
+    color:#68aef0;
     font-family:Georgia, 'Times New Roman', Times, serif;
     padding-top: 5px;
 }

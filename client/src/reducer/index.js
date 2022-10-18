@@ -26,7 +26,7 @@ export default function rootReducer(state = initialState, action) {
     
     case FILTER_BY_DIET:
       const fin = action.payload === 'all' ? state.recipes : state.recipes.filter((e) => {
-        return e.diets.includes(action.payload) || e.diets.map((e) => e.name ).includes(action.payload)
+        return e.diets.includes(action.payload) || e[action.payload] || e.diets.map((e) => e.name ).includes(action.payload)
       })
       return {
         ...state,

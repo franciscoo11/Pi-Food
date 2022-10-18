@@ -1,6 +1,6 @@
 .titulo{
-    color:#90ffd4 ;
-    margin-top: 5px;
+    color:#66fcf1 ;
+    margin-top: 35px;
     font-size: 50px;
     font-style: italic;
     font-family:Georgia, 'Times New Roman', Times, serif;
@@ -8,11 +8,11 @@
 .btn2 {
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
-    font-size: 12px;
-    color: #000000 ;
-    width: 60px;
+    font-size: 13px;
+    color: #66fcf1 ;
+    width: 80px;
     height: 30px;
-    background-color: #4cb68d ;
+    background-color: #4b7c88 ;
     border: none;
     border-radius: 7px;
     cursor: pointer;
@@ -20,19 +20,21 @@
     margin: 5px;
 }
 .btn2:hover{
-    background-color:#00ce7f;
+    background-color:#24afe6;
 }
 
 .form{
     max-width: 600px;
-    background: rgba (255, 255, 255, .2);
-    box-shadow: 0 5px 15px rgba(0,0,0,1);
+    border-radius: 15px;
+    background: #044858;
+    box-shadow: 0 5px 15px rgb(13, 128, 194);
     margin-top: 5px;
 }
 .form label{
-    background-color: rgba(177, 216, 183, .7);
+    background-color: #5e6e72;
     border-radius: 5px;
     display: inline-block;
+    color: rgb(253, 254, 255);
     width: 150px;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
@@ -52,7 +54,7 @@
     font-style: italic;
     font-size: 12px;
     border: none;
-    background-color: #b7e4d3;
+    background-color: #b7c3e4;
     border-radius: 10px;
     margin-right: 5px;
 }
@@ -60,4 +62,8 @@
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+.danger {
+    color: red;
 }
