@@ -23,7 +23,7 @@ export function validate(input) {
   }
   if (!/^[1-9][0-9]?$|^100$/g.test(input.healthScore)) {
     errors.healthScore =
-      "Health Score is required and must be in a range from 1 - 100";
+      "Health Score is required and must be between 1 - 100";
   }
   return errors;
 }
@@ -83,7 +83,7 @@ export default function RecipeCreate() {
     diets.length ?
     <div>
       <Link to='/home'>
-        <button className={styles.btn2} style={{position: 'absolute', left: '50px', top: '35px'}}>BACK</button>
+        <button className={styles.btn2} style={{position: 'absolute', left: '550px', top: '350px'}}>BACK</button>
       </Link>
       
       <h1 className={styles.titulo}>Create Recipe</h1>

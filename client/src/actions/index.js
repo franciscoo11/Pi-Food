@@ -28,7 +28,6 @@ export function getRecipeSearch(name) {
 export function getDiets() {
   return async function (dispatch) {
     const response = await axios.get("http://localhost:3001/diets");
-    // const formatResponse = response.data.map(d => d.name)
     return dispatch({ type: GET_DIETS, payload: response.data });
   }
 }
@@ -43,6 +42,7 @@ export function filterByDiet(payload) {
 export function resetDetail(payload){
   return {
     type: 'RESET_DETAIL',
+    payload: []
   }
 }
 
@@ -70,7 +70,7 @@ export function orderByHealthScore(payload) {
 export function postRecipes(payload) {
   return async function (dispatch) {
     const response = await axios.post(`http://localhost:3001/recipes`, payload);
-    return response;
+    return response.data;
   };
 }
 
@@ -82,4 +82,14 @@ export function getRecipeDetail(id) {
       payload: response.data,
     });
   };
+}
+
+export function removeRecipe(id) {
+  return async function(dispatch){
+    const response = await axios.delete(`http://localhost:3001/recipes/${id}`)
+    return dispatch({
+      type: 'REMOVE_RECIPEDB',
+      payload: response.data
+    })
+  }
 }

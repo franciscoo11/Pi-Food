@@ -1,6 +1,6 @@
 import { GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, 
   POST_RECIPE,
-  FILTER_BY_HEALTHSCORE, FILTER_BY_DIET, ORDER_BY_NAME, FILTER_BY_NAME } from "../actions";
+  FILTER_BY_HEALTHSCORE, FILTER_BY_DIET, ORDER_BY_NAME, FILTER_BY_NAME, FILTER_BY_CREATED_DB } from "../actions";
 
 const initialState = {
   recipes: [],
@@ -40,29 +40,41 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case FILTER_BY_HEALTHSCORE:
-      const healthScoreSorted = action.payload === 'asc' ? 
-      state.recipes.sort(function(a,b) {
-        return a.healthScore > b.healthScore ? 1 : b.healthScore > a.healthScore ? -1 : 0
-      }) : 
-      state.recipes.sort(function(a,b) {
-        return a.healthScore > b.healthScore ? -1 : b.healthScore > a.healthScore ? 1 : 0
-      });
       return {
         ...state,
-        allRecipes: healthScoreSorted
-      };
-
+        allRecipes: state.recipes.sort((a,b) => {
+          if(action.payload === 'asc'){
+            if(a.healthScore < b.healthScore) return -1
+            if(b.healthScore < a.healthScore) return 1
+            return 0
+          } else {
+            if(b.healthScore < a.healthScore) return -1
+            if(a.healthScore < b.healthScore) return 1
+            return 0
+          }
+        })
+      }; 
+      
+    case FILTER_BY_CREATED_DB:
+      const dbSorted = action.payload === 'db' ? state.recipes.filter(recipe => recipe.fromDb) : state.recipes.filter(recipe => !recipe.fromDb);
+      return {
+        ...state,
+        allRecipes: dbSorted
+      }
     case ORDER_BY_NAME:
-      const nameSorted = action.payload === 'asc' ?
-      state.recipes.sort(function(a,b) {
-        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : b.name.toLowerCase() > a.name.toLowerCase() ? -1 : 0
-      }) :
-      state.recipes.sort(function(a,b) {
-        return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : b.name.toLowerCase() > a.name.toLowerCase() ? 1 : 0
-      });
       return {
         ...state,
-        allRecipes: nameSorted
+        allRecipes: state.recipes.sort((a,b) => {
+          if(action.payload === 'asc'){
+            if(a.name.toLowerCase() < b.name.toLowerCase()) return -1
+            if(b.name.toLowerCase() < a.name.toLowerCase()) return 1
+            return 0
+          } else {
+            if(b.name.toLowerCase() < a.name.toLowerCase()) return -1
+            if(a.name.toLowerCase() < b.name.toLowerCase()) return 1
+            return 0
+          }
+        })
       };
 
     case GET_RECIPE_DETAIL:
@@ -71,6 +83,12 @@ export default function rootReducer(state = initialState, action) {
         detail: action.payload
       };
     
+    case 'RESET_DETAIL':
+      return {
+        ...state,
+        detail: action.payload
+      }
+
     case POST_RECIPE:
       return {
         ...state

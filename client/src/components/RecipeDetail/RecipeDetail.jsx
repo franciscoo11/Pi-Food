@@ -2,25 +2,35 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { getRecipeDetail, resetDetail } from '../../actions'
+import { useParams, useHistory } from "react-router";
+import { getRecipeDetail, resetDetail, removeRecipe } from '../../actions'
 import styles from "../RecipeDetail/RecipeDetail.module.css";
 
 
 export default function RecipeDetail() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { idRecipe } = useParams();
   const recipe = useSelector((state) => state.detail);
 
   useEffect(() => {
-    console.log('ENTRE, ACTUALIZE, SALGO')
     dispatch(getRecipeDetail(idRecipe));
-    return dispatch(resetDetail());
+    return () => {
+      dispatch(resetDetail())
+    };
   }, [dispatch,idRecipe]);
+
+
+  const handlerRecipeDelete = () => {
+    dispatch(removeRecipe(idRecipe));
+    alert('Recipe has been remove')
+    history.push("/home")
+    window.location.reload()
+  }
 
   return (
     <div>
-      {recipe.healthScore ? (
+      {recipe.image ? (
         <div className={styles.div} style={{ marginTop: "80px" }}>
           <div>
             <h1 className={styles.titulodetail}>{recipe.name}</h1>
@@ -61,9 +71,12 @@ export default function RecipeDetail() {
           <h2>Loading..</h2>
         </div>
       )}
-
+      {
+        recipe.fromDb ? (<button className={styles.btn2} style={{position: 'absolute', right: '7%', top: '10%', color: '#fff', borderRadius: '15px', width: '45px', height: '50px'}} onClick={handlerRecipeDelete}>X</button>) : null
+      }
+      
       <Link to="/home">
-        <button className={styles.btn5}>Back to home</button>
+        <button className={styles.btn5} style={{display: !recipe.image ? 'none' : 'inline-block'}}>Back to home</button>
       </Link>
     </div>
   );

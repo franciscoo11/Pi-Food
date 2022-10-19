@@ -65,6 +65,22 @@
   border-radius: 5px;
 }
 .detalles{
-      background-color: none;
+    background-color: none;
 }
 
+.btn2 {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 13px;
+    width: 80px;
+    height: 30px;
+    background-color: #8d3014 ;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: .3s ease all;
+    margin: 5px;
+}
+.btn2:hover{
+    background-color:#24afe6;
+}
