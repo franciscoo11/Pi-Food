@@ -2,13 +2,13 @@ require("dotenv").config();
 const axios = require("axios");
 const { Recipe, Diet } = require("./../db.js");
 const API_URL = "https://api.spoonacular.com/recipes/";
-const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API_KEY8 } = process.env;
+const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API_KEY8, API_KEY9 } = process.env;
 
 
 const getApiRecipes = async () => {
   try {
     const apiRecipes = await axios.get(
-      `${API_URL}complexSearch?apiKey=${API_KEY6}&addRecipeInformation=true&number=100`
+      `${API_URL}complexSearch?apiKey=${API_KEY8}&addRecipeInformation=true&number=100`
     );
     const formatApiRecipes = await apiRecipes.data.results.map((recipe) => {
       return {
@@ -89,8 +89,8 @@ const getAllRecipesOrFilterByName = async (req,res,next) => {
 
 const postRecipe = async(req,res,next) => {
   try {
-    const { name, summary, steps, diets, healthScore } = req.body;
-    const addRecipe = await Recipe.create({name, summary, healthScore, steps });
+    const { name, summary, steps, diets, healthScore, image } = req.body;
+    const addRecipe = await Recipe.create({...req.body, image: image || 'https://i.ibb.co/Ykth1KM/icono-1-1.png'});
     const findDiets = await Diet.findAll({ where: {
       name: diets
     }})
@@ -102,10 +102,24 @@ const postRecipe = async(req,res,next) => {
   }
 }
 
+const deleteRecipe = async(req,res,next) => {
+  try {
+    const { id } = req.params;
+    await Recipe.destroy({
+      where: { id }
+    })
+
+    res.status(200).json(id)
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 module.exports = {
   getApiRecipes,
   getAllRecipesOrFilterByName,
   getRecibeById,
-  postRecipe
+  postRecipe,
+  deleteRecipe
 }
