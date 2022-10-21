@@ -15,15 +15,14 @@ const defaultForm = {
 
 export function validate(input) {
   let errors = {};
-  if (!input.name) {
+  if (!input.name.trim()) {
     errors.name = "Title is required";
   }
-  if (!input.summary) {
+  if (!input.summary.trim()) {
     errors.summary = "Summary is required";
   }
   if (!/^[1-9][0-9]?$|^100$/g.test(input.healthScore)) {
-    errors.healthScore =
-      "Health Score is required and must be between 1 - 100";
+    errors.healthScore = "Health Score is required and must be between 1 - 100";
   }
   return errors;
 }
@@ -62,14 +61,6 @@ export default function RecipeCreate() {
       }));
     }
   }
-
-//   const handleDelete = (e, el) => {
-//     e.preventDefault();
-//     setInput({
-//         ...input,
-//         diets : input.diets.filter( ele => ele !== el)
-//     })
-//   }
 
   const handleOnSubmit = function (e) {
     e.preventDefault();

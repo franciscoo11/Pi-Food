@@ -39,27 +39,23 @@ const prev = () => {
 }
 
 const handleFilterDb = (e) => {
-    e.preventDefault();
     dispatch(filterByCreated(e.target.value))
     setCurrentPage(1);
     setOrden(`Order ${e.target.value}`)
 }
 const handleSort = (e) => {
-    e.preventDefault();
     dispatch(orderByName(e.target.value))
     setCurrentPage(1);
     setOrden(`Order ${e.target.value}`)
 }
 
 const handleSortScore = (e) => {
-    e.preventDefault();
     dispatch(orderByHealthScore(e.target.value))
     setCurrentPage(1);
     setOrden(`Order ${e.target.value}`)
 }
 
 const handleFilterDiets = (e) => {
-    e.preventDefault();
     dispatch(filterByDiet(e.target.value))
     setCurrentPage(1)
     setOrden(`Order ${e.target.value}`)
@@ -81,7 +77,7 @@ return(
         <div className={styles.contenedorFiltros} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr', gridTemplateRows:'1fr', gap:'140px'}}>
             <div className={styles.puntuacion} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
                 <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order by healthScore</label>
-                <select className={styles.btn} onClick={e => handleSortScore(e)}>
+                <select className={styles.btn} onChange={handleSortScore}>
                     <option>Click me ⇩</option>
                     <option value = 'asc' >0-100</option>
                     <option value = 'desc'>100-0</option>
@@ -89,7 +85,7 @@ return(
             </div>
             <div className={styles.alfabeticamente} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
                 <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order A-Z</label>
-                <select className={styles.btn} onClick={e => handleSort(e)}>
+                <select className={styles.btn} onChange={handleSort}>
                     <option>Click me ⇩</option>
                     <option value = 'asc'>A-Z</option>
                     <option value = 'desc'>Z-A</option>
@@ -97,7 +93,7 @@ return(
             </div>
             <div className={styles.fromapiordb} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
                 <label  style={{width:'45%', marginLeft:'48px'}} className={styles.lbpuntuacion}>API-DB</label>
-                <select style={{marginLeft:'30px'}} className={styles.btn} onClick={e => handleFilterDb(e)}>
+                <select style={{marginLeft:'30px'}} className={styles.btn} onChange={handleFilterDb}>
                     <option>Click me ⇩</option>
                     <option value = 'db'>DB</option>
                     <option value = 'api'>API</option>
@@ -105,7 +101,7 @@ return(
             </div>
             <div className={styles.recetas} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
             <label style={{marginLeft: '15px'}} className={styles.lbdiets}>Filter by Diets</label>
-            <select className={styles.btn} onChange={e => handleFilterDiets(e)}>
+            <select className={styles.btn} onChange={handleFilterDiets}>
                 <option value ='all'>All</option>
                 <option value ='vegetarian'>Vegetarian</option>
                 <option value ='vegan'>Vegan</option>
@@ -125,16 +121,16 @@ return(
             <div style={{marginTop: '25px'}}>
                     <SearchBar />
             </div> 
-            <Pagination
+            {currentRecipes.length ? <Pagination
             recipesPerPage= {recipesPerPage}
             allRecipes={allRecipes.length}
             paginado= {paginado} 
             currentPage = {currentPage}
             next={next}
-            prev={prev}/>
+            prev={prev}/> : null}
         <div className={styles.containerCard}>
          
-         { !currentRecipes.length ? <p style={{ color: '#fff'}}> No se encontraron recetas.. </p> :
+         { !currentRecipes.length ? <p style={{ color: 'black'}}> No se encontraron recetas.. </p> :
            currentRecipes?.map( e =>{
             
             let formatDiets = function() {
@@ -158,13 +154,13 @@ return(
            })
         }
         </div>
-        <Pagination
+        {/* <Pagination
             recipesPerPage= {recipesPerPage}
             allRecipes={allRecipes.length}
             paginado= {paginado} 
             currentPage = {currentPage}
             next={next}
-            prev={prev}/>
+            prev={prev}/> */}
         </div> 
     </div>
     )

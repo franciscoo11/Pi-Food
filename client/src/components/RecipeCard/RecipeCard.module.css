@@ -1,8 +1,8 @@
 .recipecard {
     margin-top: 10px;
-    background: #2c3741;
+    background: #f3f3ed;
     position:static;
-    box-shadow: 0px 0px 7px rgb(179, 179, 185);
+    box-shadow: 0px 0px 7px rgb(10, 10, 12);
     border-radius: 10px;
     background-size: cover;
     background-position: center center ; 
@@ -10,11 +10,11 @@
 
 .recipecard h1{
     font-size:20px;
-    color:#fafffe
+    color: #272343;
 }
 .recipecard h3{
     font-size:15px;
-    color: #a1acc2;
+    color: #2d334a;
 }
 .recipecard:hover{
     transform: scale(1.02, 1.02);

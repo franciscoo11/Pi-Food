@@ -6,32 +6,32 @@
 }
 
 .buttonPaginado {
-  background-color: #6beaf3;
+  background-color: #ffd803;
   border-radius: 999px;
-  border: #b1d8b8;
+  border: #140402;
   color: rgb(0, 0, 0);
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-style: italic;
   padding: 5px;
-  box-shadow: 0 5px 15px rgb(131, 198, 243);
+  box-shadow: 0 5px 15px rgb(247, 245, 244);
 }
 
 .buttonPaginado:hover {
-  background-color: #1d63b4;
+  background-color: #140d03;
   cursor:pointer
 }
 
 .buttonPaginado:visited,
 .buttonPaginado:active {
 
-  background-color: #1d63b4;
+  background-color: #eba63f;
 }
 
 .buttonPaginado:focus {
-  background-color: #1d63b4;
+  background-color: #ebab4d;
   cursor: pointer;
 }
 
 #borderActualPage {
-  border: 4px solid rgba(7, 3, 1, 0.8);
+  border: 4px solid rgba(17, 8, 1, 0.8);
 }

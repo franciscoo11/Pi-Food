@@ -13,7 +13,7 @@
 }
 
 .tituloHome {
-    color:#66fcf1 ;
+    color: #272343;
     margin-top: 10px;
     font-size: 40px;
     font-style: italic;
@@ -27,24 +27,24 @@
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 17px;
-    color: #e6e5f0;
+    color: #272343;
     width: 110px;
     height: 40px;
-    background-color: #1d63b4 ;
+    background-color: #ffd803;
     border: none;
     border-radius: 999px;
     cursor: pointer;
     transition: .3s ease all;
-    box-shadow: 0 5px 15px rgba(9, 202, 236, 0.925);
+    box-shadow: 0 5px 15px rgba(2, 12, 14, 0.925);
 }
 .btn:hover{
-    background-color:#24afe6;
+    background-color:#f59a13;
 }
 
 .contenedorFiltros label{
     align-self: center;
-    color: #e6e5f0;
-    background-color:#1d63b4 ;
+    color: #272343;
+    background-color:#bae8e8;
     font-size: 12px;
     font-style: italic;
     font-family:Georgia, 'Times New Roman', Times, serif;
