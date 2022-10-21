@@ -9,10 +9,10 @@
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
     font-size: 13px;
-    color: #66fcf1 ;
+    color: #272343 ;
     width: 80px;
     height: 30px;
-    background-color: #4b7c88 ;
+    background-color: #ffd803;
     border: none;
     border-radius: 7px;
     cursor: pointer;
@@ -20,21 +20,21 @@
     margin: 5px;
 }
 .btn2:hover{
-    background-color:#24afe6;
+    background-color:#f59a13;
 }
 
 .form{
     max-width: 600px;
     border-radius: 15px;
     background: #044858;
-    box-shadow: 0 5px 15px rgb(13, 128, 194);
+    box-shadow: 0 5px 15px rgb(0, 0, 0);
     margin-top: 5px;
 }
 .form label{
-    background-color: #5e6e72;
+    background-color: #bae8e8;
     border-radius: 5px;
     display: inline-block;
-    color: rgb(253, 254, 255);
+    color: #272343;
     width: 150px;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
@@ -45,7 +45,8 @@
     display: inline-block;
     width: 150px;
     margin: 5px;
-    
+    background-color: #ffd803;
+    color: #272343;
 }
 .form textarea {
     margin-top: 5px;
@@ -54,7 +55,7 @@
     font-style: italic;
     font-size: 12px;
     border: none;
-    background-color: #b7c3e4;
+    background-color: #ffd803;
     border-radius: 10px;
     margin-right: 5px;
 }

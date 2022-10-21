@@ -59,7 +59,7 @@ export default function rootReducer(state = initialState, action) {
       const dbSorted = action.payload === 'db' ? state.recipes.filter(recipe => recipe.fromDb) : state.recipes.filter(recipe => !recipe.fromDb);
       return {
         ...state,
-        allRecipes: dbSorted
+        allRecipes: action.payload === 'all' ? state.recipes : dbSorted,
       }
     case ORDER_BY_NAME:
       return {

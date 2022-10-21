@@ -57,7 +57,7 @@ const handleSortScore = (e) => {
 
 const handleFilterDiets = (e) => {
     dispatch(filterByDiet(e.target.value))
-    setCurrentPage(1)
+    setCurrentPage(1);
     setOrden(`Order ${e.target.value}`)
 }
 
@@ -95,6 +95,7 @@ return(
                 <label  style={{width:'45%', marginLeft:'48px'}} className={styles.lbpuntuacion}>API-DB</label>
                 <select style={{marginLeft:'30px'}} className={styles.btn} onChange={handleFilterDb}>
                     <option>Click me ⇩</option>
+                    <option value = 'all'>ALL</option>
                     <option value = 'db'>DB</option>
                     <option value = 'api'>API</option>
                 </select>

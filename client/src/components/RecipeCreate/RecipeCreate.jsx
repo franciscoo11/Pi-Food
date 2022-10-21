@@ -74,7 +74,7 @@ export default function RecipeCreate() {
     diets.length ?
     <div>
       <Link to='/home'>
-        <button className={styles.btn2} style={{position: 'absolute', left: '550px', top: '350px'}}>BACK</button>
+        <button className={styles.btn2} style={{position: 'absolute', left: '550px', top: '350px', width:'100px'}}>BACK</button>
       </Link>
       
       <h1 className={styles.titulo}>Create Recipe</h1>
