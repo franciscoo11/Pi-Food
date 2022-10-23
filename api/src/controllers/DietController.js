@@ -21,5 +21,5 @@ const getAllDiets = async (req, res, next) => {
 };
 
 module.exports = {
-    getAllDiets,
+  getAllDiets,
 }

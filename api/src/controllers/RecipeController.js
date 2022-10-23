@@ -8,7 +8,7 @@ const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API
 const getApiRecipes = async () => {
   try {
     const apiRecipes = await axios.get(
-      `${API_URL}complexSearch?apiKey=${API_KEY8}&addRecipeInformation=true&number=100`
+      `${API_URL}complexSearch?apiKey=${API_KEY7}&addRecipeInformation=true&number=100`
     );
     const formatApiRecipes = await apiRecipes.data.results.map((recipe) => {
       return {
@@ -90,12 +90,19 @@ const getAllRecipesOrFilterByName = async (req,res,next) => {
 const postRecipe = async(req,res,next) => {
   try {
     const { name, summary, steps, diets, healthScore, image } = req.body;
-    const addRecipe = await Recipe.create({...req.body, image: image || 'https://i.ibb.co/Ykth1KM/icono-1-1.png'});
-    const findDiets = await Diet.findAll({ where: {
-      name: diets
-    }})
+    if(!name || !summary || !diets) res.status(400).json({msg: 'Should be send the name, diets and summary.'})
+    const addRecipe = await Recipe.create({...req.body});
+    diets && diets.forEach(async (d) => {
+      const diet = await Diet.findOne({
+        where: { name: d},
+      })
+      addRecipe.addDiet(diet);
+    })
+    // const findDiets = await Diet.findAll({ where: {
+    //   name: diets
+    // }})
 
-    await addRecipe.addDiet(findDiets)
+    // await addRecipe.addDiet(findDiets)
     return res.status(201).json(addRecipe) //no seria mejor mandar el obj creado? {msg: 'Recipe has been created!'}
   } catch (error) {
     next(error)
@@ -105,6 +112,10 @@ const postRecipe = async(req,res,next) => {
 const deleteRecipe = async(req,res,next) => {
   try {
     const { id } = req.params;
+    const findRecipeDb = await Recipe.findByPk(id);
+    const findRecipeApi = await getApiRecipes();
+    if(!findRecipeApi.find(recipe => recipe.id == id) && !findRecipeDb) return res.status(400).json({msg: 'ID invalid.'})
+
     await Recipe.destroy({
       where: { id }
     })
@@ -115,11 +126,31 @@ const deleteRecipe = async(req,res,next) => {
   }
 }
 
+const updateRecipe = async(req,res,next) => {
+  try {
+    const { id } = req.params;
+    const { name, summary, healthScore, steps, image, diets } = req.body;
+    if(!name || !summary || !id) res.status(400).json({msg: 'Invalid some fields are missing.'})
+    Recipe.update({ name, summary, healthScore, steps, image: image || 'https://i.ibb.co/Ykth1KM/icono-1-1.png'}, { where: { id: id}});
+    if(diets.length){
+      let arr = [];
+      const recipe = await Recipe.findOne({ where: { id: id }, });
+      const findDiets = await Diet.findAll({ where: {
+        name: diets
+      }})
+      recipe.setDiets(findDiets)
+    }
+    res.status(204).json({msg: 'Recipe has been updated successfully!'})
+  } catch (error) {
+    next(error)
+  }
+}
 
 module.exports = {
   getApiRecipes,
   getAllRecipesOrFilterByName,
   getRecibeById,
   postRecipe,
-  deleteRecipe
+  deleteRecipe,
+  updateRecipe
 }

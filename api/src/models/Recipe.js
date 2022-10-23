@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
       validate:{
         notNull: {
-          message: 'Empty is not allowed.'
+          msg: 'Empty is not allowed.'
         }
       }
     },
@@ -24,12 +24,16 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate:{
         notNull: {
-          message: 'Empty is not allowed.'
+          msg: 'Empty is not allowed.'
         }
       }
     },
     healthScore: { 
       type: DataTypes.INTEGER,
+      validate: {
+        min:1,
+        max: 100
+      }
     },
     steps: {
       type: DataTypes.STRING,
@@ -37,6 +41,7 @@ module.exports = (sequelize) => {
     },
     image: {
       type:DataTypes.STRING,
+      defaultValue: 'https://i.ibb.co/Ykth1KM/icono-1-1.png',
     },
     fromDb: {
       type: DataTypes.BOOLEAN,
