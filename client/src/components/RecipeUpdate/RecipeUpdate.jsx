@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { postRecipes, getDiets } from "../../actions";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { updateRecipe, getDiets } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import styles from './RecipeCreate.module.css';
+import styles from './RecipeUpdate.module.css';
 
 const defaultForm = {
   name: "",
@@ -27,8 +27,9 @@ export function validate(input) {
   return errors;
 }
 
-export default function RecipeCreate() {
+export default function RecipeUpdate() {
   const [input, setInput] = useState(defaultForm);
+  const { idRecipe } = useParams();
   const [errors, setErrors] = useState({});
   const diets = useSelector((state) => state.diets);
   const dispatch = useDispatch();
@@ -39,10 +40,10 @@ export default function RecipeCreate() {
   }, [dispatch]);
 
   const handleInputChange = function (e) {
-    setInput({
-      ...input,
+    setInput((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
 
     let temporalObj = validate({
       ...input,
@@ -53,22 +54,22 @@ export default function RecipeCreate() {
 
   function handleCheckDiets(e) {
     if (e.target.checked) {
-      setInput({...input, diets: [...input.diets, e.target.value] });
-    }
-    else{
-      setInput({
-          ...input,
-          diets: input.diets.filter((t) => t !== e.target.value) 
-      })
+      setInput((prev) => ({ ...prev, diets: [...prev.diets, e.target.value] }));
+    } else {
+      setInput((prev) => ({
+        ...prev,
+        diets: [...prev.diets].filter((diet) => e.target.value !== diet.name),
+      }));
     }
   }
 
   const handleOnSubmit = function (e) {
     e.preventDefault();
-    dispatch(postRecipes(input));
+    dispatch(updateRecipe(idRecipe,input));
     setInput(defaultForm);
-    alert("Recipe has been created!");
+    alert("Recipe has been updated!");
     history.push("/home");
+    document.location.reload();
   };
 
   return (
@@ -78,7 +79,7 @@ export default function RecipeCreate() {
         <button className={styles.btn2} style={{position: 'absolute', left: '550px', top: '350px', width:'100px'}}>BACK</button>
       </Link>
       
-      <h1 className={styles.titulo}>Create Recipe</h1>
+      <h1 className={styles.titulo}>Update Recipe</h1>
       <div className={styles.container}>
 
       <form className={styles.form} onSubmit={(e) => handleOnSubmit(e)}>
@@ -150,7 +151,7 @@ export default function RecipeCreate() {
               }
           </div>
 
-        <button className={styles.btn2} type="submit">Create</button>
+        <button className={styles.btn2} type="submit">Update</button>
       </form>
 
 

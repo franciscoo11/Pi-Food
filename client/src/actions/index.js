@@ -8,7 +8,8 @@ export const POST_RECIPE = "POST_RECIPE";
 export const FILTER_BY_DIET = "FILTER_BY_DIET";
 export const FILTER_BY_CREATED_DB = "FILTER_BY_CREATED_DB";
 export const FILTER_BY_HEALTHSCORE = "FILTER_BY_HEALTHSCORE";
-export const ORDER_BY_NAME = "ORDER_BY_NAME"
+export const ORDER_BY_NAME = "ORDER_BY_NAME";
+export const UPDATE_RECIPE = "UPDATE_RECIPE";
 
 export function getAllRecipes() {
   return async function (dispatch) {
@@ -93,3 +94,17 @@ export function removeRecipe(id) {
     })
   }
 }
+
+export function updateRecipe(id, input) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(
+        'http://localhost:3001/recipes/update/' +id, input
+      );
+      dispatch({ type: UPDATE_RECIPE, payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+

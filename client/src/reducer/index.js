@@ -1,6 +1,6 @@
 import { GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, 
   POST_RECIPE,
-  FILTER_BY_HEALTHSCORE, FILTER_BY_DIET, ORDER_BY_NAME, FILTER_BY_NAME, FILTER_BY_CREATED_DB } from "../actions";
+  FILTER_BY_HEALTHSCORE, FILTER_BY_DIET, ORDER_BY_NAME, FILTER_BY_NAME, FILTER_BY_CREATED_DB, UPDATE_RECIPE } from "../actions";
 
 const initialState = {
   recipes: [],
@@ -93,7 +93,10 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state
       };
-
+    case UPDATE_RECIPE:
+      return {
+        ...state,
+      };
     default:
       return {
         ...state

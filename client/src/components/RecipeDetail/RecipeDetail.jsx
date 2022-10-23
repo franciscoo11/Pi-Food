@@ -22,10 +22,12 @@ export default function RecipeDetail() {
 
 
   const handlerRecipeDelete = () => {
-    dispatch(removeRecipe(idRecipe));
-    alert('Recipe has been remove')
-    history.push("/home")
-    window.location.reload()
+    if(window.confirm('Are you sure with keep forward?')){
+      dispatch(removeRecipe(idRecipe));
+      alert('Recipe has been remove')
+      history.push("/home")
+      window.location.reload()
+    }
   }
 
   return (
@@ -72,7 +74,13 @@ export default function RecipeDetail() {
         </div>
       )}
       {
-        recipe.fromDb ? (<button className={styles.btn2} style={{position: 'absolute', right: '7%', top: '10%', color: '#fff', borderRadius: '15px', width: '45px', height: '50px'}} onClick={handlerRecipeDelete}>X</button>) : null
+        recipe.fromDb ? (
+          <div>
+            <button className={styles.btn2} style={{position: 'absolute', right: '7%', top: '10%', color: '#fff', borderRadius: '15px', width: '45px', height: '50px'}} onClick={handlerRecipeDelete}>X</button>
+            <Link to={`/updateRecipe/${idRecipe}`}>
+              <button className={styles.btnEdit} style={{position: 'absolute', right: '12%', top: '10%', height: '50px', borderRadius: '999px', color:'#fff'}}>Edit</button>
+            </Link>
+          </div>) : null
       }
       
       <Link to="/home">

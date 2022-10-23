@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import Home from './components/Home/Home.jsx'
 import RecipeDetail from './components/RecipeDetail/RecipeDetail.jsx';
 import RecipeCreate from './components/RecipeCreate/RecipeCreate.jsx';
+import RecipeUpdate from "./components/RecipeUpdate/RecipeUpdate";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path='/home' component={Home} />
         <Route exact path='/buildrecipe' component={RecipeCreate} />
         <Route exact path='/recipes/detail/:idRecipe' component={RecipeDetail} />
+        <Route exact path='/updateRecipe/:idRecipe' component={RecipeUpdate} />
     </div>
   );
 }
