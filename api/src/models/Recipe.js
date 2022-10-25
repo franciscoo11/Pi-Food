@@ -41,7 +41,7 @@ module.exports = (sequelize) => {
     },
     image: {
       type:DataTypes.STRING,
-      defaultValue: 'https://i.ibb.co/Ykth1KM/icono-1-1.png',
+      defaultValue: "https://i.ibb.co/Ykth1KM/icono-1-1.png",
     },
     fromDb: {
       type: DataTypes.BOOLEAN,

@@ -8,7 +8,7 @@ const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API
 const getApiRecipes = async () => {
   try {
     const apiRecipes = await axios.get(
-      `${API_URL}complexSearch?apiKey=${API_KEY7}&addRecipeInformation=true&number=100`
+      `${API_URL}complexSearch?apiKey=${API_KEY4}&addRecipeInformation=true&number=100`
     );
     const formatApiRecipes = await apiRecipes.data.results.map((recipe) => {
       return {
@@ -91,7 +91,7 @@ const postRecipe = async(req,res,next) => {
   try {
     const { name, summary, steps, diets, healthScore, image } = req.body;
     if(!name || !summary || !diets) res.status(400).json({msg: 'Should be send the name, diets and summary.'})
-    const addRecipe = await Recipe.create({...req.body});
+    const addRecipe = await Recipe.create({ name, summary, steps, healthScore, image: image || 'https://i.ibb.co/Ykth1KM/icono-1-1.png' });
     diets && diets.forEach(async (d) => {
       const diet = await Diet.findOne({
         where: { name: d},
