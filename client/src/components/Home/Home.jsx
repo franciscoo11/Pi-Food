@@ -6,6 +6,7 @@ import { Link} from 'react-router-dom';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import Pagination from '../Pagination/Pagination';
 import SearchBar from '../SearchBar/SearchBar';
+import Loading from '../Loading/Loading';
 import styles from '../Home/Home.module.css';
 
 export default function Home(){
@@ -77,7 +78,7 @@ return(
         <div className={styles.contenedorFiltros} style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr', gridTemplateRows:'1fr', gap:'140px'}}>
             <div className={styles.puntuacion} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
                 <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order by healthScore</label>
-                <select className={styles.btn} onChange={handleSortScore}>
+                <select className={styles.btn} onChange={(e) => handleSortScore(e)}>
                     <option>Click me ⇩</option>
                     <option value = 'asc' >0-100</option>
                     <option value = 'desc'>100-0</option>
@@ -85,7 +86,7 @@ return(
             </div>
             <div className={styles.alfabeticamente} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
                 <label className={styles.lbpuntuacion} style={{marginLeft: '19px'}}>Order A-Z</label>
-                <select className={styles.btn} onChange={handleSort}>
+                <select className={styles.btn} onChange={(e) => handleSort(e)}>
                     <option>Click me ⇩</option>
                     <option value = 'asc'>A-Z</option>
                     <option value = 'desc'>Z-A</option>
@@ -93,7 +94,7 @@ return(
             </div>
             <div className={styles.fromapiordb} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
                 <label  style={{width:'45%', marginLeft:'48px'}} className={styles.lbpuntuacion}>API-DB</label>
-                <select style={{marginLeft:'30px'}} className={styles.btn} onChange={handleFilterDb}>
+                <select style={{marginLeft:'30px'}} className={styles.btn} onChange={(e) => handleFilterDb(e)}>
                     <option>Click me ⇩</option>
                     <option value = 'all'>ALL</option>
                     <option value = 'db'>DB</option>
@@ -102,7 +103,7 @@ return(
             </div>
             <div className={styles.recetas} style={{display:'grid', gridTemplateColumns: '1fr', gridTemplateRows:'1fr'}}>
             <label style={{marginLeft: '15px'}} className={styles.lbdiets}>Filter by Diets</label>
-            <select className={styles.btn} onChange={handleFilterDiets}>
+            <select className={styles.btn} onChange={(e) => handleFilterDiets(e)}>
                 <option value ='all'>All</option>
                 <option value ='vegetarian'>Vegetarian</option>
                 <option value ='vegan'>Vegan</option>
@@ -120,7 +121,7 @@ return(
             </div>
             </div>
             <div style={{marginTop: '25px'}}>
-                    <SearchBar />
+                    <SearchBar setCurrentPage={setCurrentPage}/>
             </div> 
             {currentRecipes.length ? <Pagination
             recipesPerPage= {recipesPerPage}
@@ -130,8 +131,8 @@ return(
             next={next}
             prev={prev}/> : null}
         <div className={styles.containerCard}>
-         
-         { !currentRecipes.length ? <p style={{ color: 'black'}}> No se encontraron recetas.. </p> :
+        {/* <p style={{ color: 'black'}}> Searching recipes.. </p> */}
+         { !currentRecipes.length ? <div style={{position: 'absolute', left: '50%', top: '50%'}}><Loading /></div> :
            currentRecipes?.map( e =>{
             
             let formatDiets = function() {
@@ -148,7 +149,7 @@ return(
             return (
                <div key={e.id}  className={styles.card}>
                     
-                   <RecipeCard id={e.id} image={ e.image ? e.image : 'https://i.ibb.co/Ykth1KM/icono-1-1.png' } name={e.name} tipoDeDieta={formatDiets()} puntuacion={e.healthScore} />
+                   <RecipeCard id={e.id} image={ e.image ? e.image : 'https://i.ibb.co/Ykth1KM/icono-1-1.png' } name={e.name} typeDiets={formatDiets()} healthScore={e.healthScore} />
                    
                    </div>
                    )

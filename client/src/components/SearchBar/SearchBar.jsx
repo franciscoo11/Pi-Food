@@ -4,11 +4,12 @@ import { useDispatch } from "react-redux";
 import { getRecipeSearch } from "../../actions";
 import styles from '../SearchBar/SearchBar.module.css';
 
-export default function SearchBar(){
+export default function SearchBar({setCurrentPage}){
     const dispatch = useDispatch()
     const [name,setName] = useState('')
 
     const handleInput = (e) => {
+        e.preventDefault()
         setName(e.target.value);
     }
 
@@ -16,6 +17,7 @@ export default function SearchBar(){
         e.preventDefault()
         dispatch(getRecipeSearch(name))
         setName('');
+        setCurrentPage(1);
     }
     return (
         <div>
@@ -26,9 +28,9 @@ export default function SearchBar(){
             autoComplete="off"
             placeholder = 'Search your plate...'
             value={name}
-            onChange = {handleInput}
+            onChange = {(e) => handleInput(e)}
             />
-            <button className={styles.btn1} type='submit' onClick={handleSubmit}>Search</button>
+            <button className={styles.btn1} type='submit' onClick={(e) => handleSubmit(e)} disabled={!name ? true : false}>Search</button>
         </div>
     )
 }

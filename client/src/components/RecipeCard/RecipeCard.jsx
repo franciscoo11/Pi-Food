@@ -6,8 +6,8 @@ export default function RecipeCard({
   id,
   image,
   name,
-  tipoDeDieta,
-  puntuacion,
+  typeDiets,
+  healthScore,
 }) {
   return (
     <div style={{ margin: 10 }}>
@@ -25,8 +25,8 @@ export default function RecipeCard({
               alt="recipe pic"
             />
             <h1>{name}</h1>
-            <h3> Type diet: {tipoDeDieta}</h3>
-            <h3> Health Score: {puntuacion}</h3>
+            <h3> Type diet: {typeDiets}</h3>
+            <h3> Health Score: {healthScore}</h3>
           </Link>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
 import { getRecipeDetail, resetDetail, removeRecipe } from '../../actions'
+import Loading from '../Loading/Loading';
 import styles from "../RecipeDetail/RecipeDetail.module.css";
 
 
@@ -69,9 +70,7 @@ export default function RecipeDetail() {
         </div>
         
       ) : (
-        <div>
-          <h2>Loading..</h2>
-        </div>
+        <div style={{position: 'absolute', left: '50%', top: '50%'}}><Loading /></div>
       )}
       {
         recipe.fromDb ? (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { postRecipes, getDiets } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from '../Loading/Loading';
 import styles from './RecipeCreate.module.css';
 
 const defaultForm = {
@@ -23,6 +24,9 @@ export function validate(input) {
   }
   if (!/^[1-9][0-9]?$|^100$/g.test(input.healthScore)) {
     errors.healthScore = "Health Score is required and must be between 1 - 100";
+  }
+  if (!input.diets.length){
+    errors.diets = "Check at least 1 diet."
   }
   return errors;
 }
@@ -52,14 +56,18 @@ export default function RecipeCreate() {
   };
 
   function handleCheckDiets(e) {
-    if (e.target.checked) {
+    if (e.target.checked && !input.diets.includes(e.target.value)) {
       setInput({...input, diets: [...input.diets, e.target.value] });
+      setErrors(validate({...input, diets: [...input.diets, e.target.value]}))
     }
     else{
       setInput({
           ...input,
-          diets: input.diets.filter((t) => t !== e.target.value) 
+          diets: input.diets.filter((d) => d !== e.target.value) 
       })
+      setErrors(
+        validate({...input, diets: input.diets.filter((d) => d !== e.target.value)})
+      )
     }
   }
 
@@ -87,6 +95,7 @@ export default function RecipeCreate() {
             <label htmlFor="name">Name: </label>
             <input
             type="text"
+            autoComplete="off"
             value={input.name}
             name="name"
             onChange={(e) => handleInputChange(e)}
@@ -99,6 +108,7 @@ export default function RecipeCreate() {
           <label htmlFor="summary">Summary: </label>
           <input
             type="text"
+            autoComplete="off"
             value={input.summary}
             name="summary"
             onChange={(e) => handleInputChange(e)}
@@ -111,6 +121,7 @@ export default function RecipeCreate() {
           <label htmlFor="image">Image url: </label>
           <input
             type="text"
+            placeholder='For example www.'
             value={input.image}
             name="image"
             onChange={(e) => handleInputChange(e)}
@@ -123,6 +134,7 @@ export default function RecipeCreate() {
             type="number"
             min="1"
             max="100"
+            autoComplete="off"
             value={input.healthScore}
             name="healthScore"
             onChange={(e) => handleInputChange(e)}
@@ -136,6 +148,7 @@ export default function RecipeCreate() {
           <textarea
             rows="4"
             cols="50"
+            autoComplete="off"
             value={input.steps}
             name="steps"
             onChange={(e) => handleInputChange(e)}
@@ -148,13 +161,14 @@ export default function RecipeCreate() {
                   <label key={diet.name}>{diet.name} <input type='checkbox' name={diet.name} value={diet.name} onChange={e => handleCheckDiets(e)}/></label>
                 ))
               }
+              {errors.diets && <p className={styles.danger}>{errors.diets}</p>}
           </div>
 
-        <button className={styles.btn2} type="submit">Create</button>
+        <button className={styles.btn2} disabled={Object.keys(errors).length} type="submit">Create</button>
       </form>
 
 
       </div>
-    </div> : <p>Loading..</p>
+    </div> : <div style={{position: 'absolute', left: '50%', top: '50%'}}><Loading /></div>
   );
 }

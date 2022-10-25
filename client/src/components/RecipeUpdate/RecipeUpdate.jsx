@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { updateRecipe, getDiets } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from '../Loading/Loading';
 import styles from './RecipeUpdate.module.css';
 
 const defaultForm = {
@@ -156,6 +157,6 @@ export default function RecipeUpdate() {
 
 
       </div>
-    </div> : <p>Loading..</p>
+    </div> : <div style={{position: 'absolute', left: '50%', top: '50%'}}><Loading /></div>
   );
 }
