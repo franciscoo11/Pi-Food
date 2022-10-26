@@ -67,8 +67,10 @@ return(
         <div>
             <div style={{display:'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows:'1fr', }}>
                 
-                <h1 className={styles.tituloHome} style={{gridColumn: '1', gridRow: '1'}}>Amazing food!</h1>
-
+                <Link to='/home'>
+                    <h1 className={styles.tituloHome} style={{gridColumn: '1', gridRow: '1'}}>Amazing food!</h1>
+                </Link>
+                
                 <Link to = '/buildrecipe' >
                     <button className={styles.btn} style={{marginRight: '150px'}}>Add recipe</button>     
                 </Link>

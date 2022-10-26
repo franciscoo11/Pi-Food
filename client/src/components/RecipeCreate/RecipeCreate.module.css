@@ -26,15 +26,14 @@
 .form{
     max-width: 600px;
     border-radius: 15px;
-    background: #044858;
+    background: #034351;
     box-shadow: 0 5px 15px rgb(0, 0, 0);
     margin-top: 5px;
 }
 .form label{
-    background-color: #bae8e8;
     border-radius: 5px;
-    display: inline-block;
-    color: #272343;
+    display: block;
+    color: #fefefe;
     width: 150px;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
@@ -43,7 +42,7 @@
 }
 .form input{
     display: inline-block;
-    width: 150px;
+    width: 70%;
     margin: 5px;
     background-color: #ffd803;
     color: #272343;
