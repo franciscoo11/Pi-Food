@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { postRecipes, getDiets } from "../../actions";
+import { getDiets } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from '../Loading/Loading';
 import styles from './RecipeCreate.module.css';
+import axios from "axios";
 
 const defaultForm = {
   name: "",
@@ -66,17 +67,26 @@ export default function RecipeCreate() {
           diets: input.diets.filter((d) => d !== e.target.value) 
       })
       setErrors(
-        validate({...input, diets: input.diets.filter((d) => d !== e.target.value)})
+        validate({...input, diets: input.diets.filter((d) => d.name !== e.target.value)})
       )
     }
   }
 
   const handleOnSubmit = function (e) {
     e.preventDefault();
-    dispatch(postRecipes(input));
-    setInput(defaultForm);
-    alert("Recipe has been created!");
-    history.push("/home");
+    if(!errors.name && input.name && !errors.summary && input.summary && !errors.healthScore && input.healthScore && !errors.diets && input.diets.length){
+      axios.post('http://localhost:3001/recipes', input)
+      .then(recipe => {
+        alert('Recipe has been created')
+        setInput(defaultForm);
+        history.push("/home");
+        window.location.reload()
+      })
+      .catch(() => alert('Ups..error has been present please try again!'))
+    }
+    else {
+      alert('Something goes wrong check the form')
+    }
   };
 
   return (
@@ -92,7 +102,7 @@ export default function RecipeCreate() {
       <form className={styles.form} onSubmit={(e) => handleOnSubmit(e)}>
 
           <div>
-            <label htmlFor="name">Name: </label>
+            <label style={{marginLeft: '34%'}} htmlFor="name">Name: </label>
             <input
             type="text"
             autoComplete="off"
@@ -105,7 +115,7 @@ export default function RecipeCreate() {
           </div>
         
           <div>
-          <label htmlFor="summary">Summary: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="summary">Summary: </label>
           <input
             type="text"
             autoComplete="off"
@@ -118,7 +128,7 @@ export default function RecipeCreate() {
           </div>
 
           <div>
-          <label htmlFor="image">Image url: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="image">Image url: </label>
           <input
             type="text"
             placeholder='For example www.'
@@ -129,7 +139,7 @@ export default function RecipeCreate() {
           </div>
       
           <div>
-          <label htmlFor="healthScore">HealthScore: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="healthScore">HealthScore: </label>
           <input
             type="number"
             min="1"
@@ -144,7 +154,7 @@ export default function RecipeCreate() {
           </div>
         
           <div>
-          <label htmlFor="steps">Steps: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="steps">Steps: </label>
           <textarea
             rows="4"
             cols="50"

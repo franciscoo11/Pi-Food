@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { updateRecipe, getDiets } from "../../actions";
+import { getDiets } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from '../Loading/Loading';
 import styles from './RecipeUpdate.module.css';
+import axios from "axios";
 
 const defaultForm = {
   name: "",
@@ -55,22 +56,34 @@ export default function RecipeUpdate() {
 
   function handleCheckDiets(e) {
     if (e.target.checked) {
-      setInput((prev) => ({ ...prev, diets: [...prev.diets, e.target.value] }));
-    } else {
-      setInput((prev) => ({
-        ...prev,
-        diets: [...prev.diets].filter((diet) => e.target.value !== diet.name),
-      }));
+      setInput(({ ...input, diets: [...input.diets, e.target.value] }));
+    }
+    else {
+      setInput({
+        ...input,
+        diets: input.diets.filter((d) => d.name !== e.target.value) 
+      })
     }
   }
 
   const handleOnSubmit = function (e) {
     e.preventDefault();
-    dispatch(updateRecipe(idRecipe,input));
-    setInput(defaultForm);
-    alert("Recipe has been updated!");
-    history.push("/home");
-    document.location.reload();
+    if(!errors.name && input.name && !errors.healthScore && input.healthScore && !errors.summary && input.summary){
+
+      axios.put(
+        'http://localhost:3001/recipes/update/' +idRecipe, input
+      )
+      .then(response => {
+        alert("Recipe has been updated!");
+        setInput(defaultForm);
+        history.push("/home");
+        document.location.reload();
+      })
+      .catch(() => alert('Ups..error has been present please try again'))
+    }
+    else {
+      alert('Something goes wrong check the form')
+    }
   };
 
   return (
@@ -86,7 +99,7 @@ export default function RecipeUpdate() {
       <form className={styles.form} onSubmit={(e) => handleOnSubmit(e)}>
 
           <div>
-            <label htmlFor="name">Name: </label>
+            <label style={{marginLeft: '34%'}} htmlFor="name">Name: </label>
             <input
             type="text"
             value={input.name}
@@ -98,7 +111,7 @@ export default function RecipeUpdate() {
           </div>
         
           <div>
-          <label htmlFor="summary">Summary: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="summary">Summary: </label>
           <input
             type="text"
             value={input.summary}
@@ -110,7 +123,7 @@ export default function RecipeUpdate() {
           </div>
 
           <div>
-          <label htmlFor="image">Image url: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="image">Image url: </label>
           <input
             type="text"
             value={input.image}
@@ -120,7 +133,7 @@ export default function RecipeUpdate() {
           </div>
       
           <div>
-          <label htmlFor="healthScore">HealthScore: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="healthScore">HealthScore: </label>
           <input
             type="number"
             min="1"
@@ -134,7 +147,7 @@ export default function RecipeUpdate() {
           </div>
         
           <div>
-          <label htmlFor="steps">Steps: </label>
+          <label style={{marginLeft: '34%'}} htmlFor="steps">Steps: </label>
           <textarea
             rows="4"
             cols="50"
@@ -154,7 +167,6 @@ export default function RecipeUpdate() {
 
         <button className={styles.btn2} type="submit">Update</button>
       </form>
-
 
       </div>
     </div> : <div style={{position: 'absolute', left: '50%', top: '50%'}}><Loading /></div>

@@ -33,7 +33,7 @@ export default function RecipeDetail() {
 
   return (
     <div>
-      {recipe.image ? (
+      {recipe.length !== 0 ? (
         <div className={styles.div} style={{ marginTop: "80px" }}>
           <div>
             <h1 className={styles.titulodetail}>{recipe.name}</h1>
@@ -41,7 +41,7 @@ export default function RecipeDetail() {
           <div>
             <img
               src={
-                recipe.image ? recipe.image : "not pic" //upload img default when imgs is empty
+                recipe.image ? recipe.image : 'https://i.ibb.co/Ykth1KM/icono-1-1.png' //upload img default when imgs is empty
               }
               alt="recipe plate"
             />
