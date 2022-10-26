@@ -8,9 +8,9 @@ const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API
 const getApiRecipes = async () => {
   try {
     const apiRecipes = await axios.get(
-      `${API_URL}complexSearch?apiKey=${API_KEY4}&addRecipeInformation=true&number=100`
+      `${API_URL}complexSearch?apiKey=${API_KEY7}&addRecipeInformation=true&number=100`
     );
-    const formatApiRecipes = await apiRecipes.data.results.map((recipe) => {
+    const formatApiRecipes = apiRecipes.data.results.map((recipe) => {
       return {
         id: recipe.id,
         name: recipe.title,
@@ -48,6 +48,7 @@ const getDbRecipes = async () => {
   }
 };
 
+
 const getAllRecipes = async () => {
   try {
     const apiRecipes = await getApiRecipes();
@@ -63,7 +64,7 @@ const getAllRecipes = async () => {
 const getRecibeById = async(req,res,next) => {
   try {
     const { id } = req.params;
-    const allRecipes = await getAllRecipes(id);
+    const allRecipes = await getAllRecipes();
     if(id){
       const findRecipe = allRecipes.find(recipe => recipe.id == id);
       findRecipe ? res.status(200).json(findRecipe) : res.status(404).json({msg: 'Recipe not found.'});
@@ -92,7 +93,7 @@ const postRecipe = async(req,res,next) => {
     const { name, summary, steps, diets, healthScore, image } = req.body;
     if(!name || !summary || !diets) res.status(400).json({msg: 'Should be send the name, diets and summary.'})
     const addRecipe = await Recipe.create({ name, summary, steps, healthScore, image: image || 'https://i.ibb.co/Ykth1KM/icono-1-1.png' });
-    diets && diets.forEach(async (d) => {
+    diets.forEach(async (d) => {
       const diet = await Diet.findOne({
         where: { name: d},
       })
@@ -113,8 +114,7 @@ const deleteRecipe = async(req,res,next) => {
   try {
     const { id } = req.params;
     const findRecipeDb = await Recipe.findByPk(id);
-    const findRecipeApi = await getApiRecipes();
-    if(!findRecipeApi.find(recipe => recipe.id == id) && !findRecipeDb) return res.status(400).json({msg: 'ID invalid.'})
+    if(!findRecipeDb) return res.status(400).json({msg: 'ID invalid.'})
 
     await Recipe.destroy({
       where: { id }
@@ -130,16 +130,21 @@ const updateRecipe = async(req,res,next) => {
   try {
     const { id } = req.params;
     const { name, summary, healthScore, steps, image, diets } = req.body;
-    if(!name || !summary || !id) res.status(400).json({msg: 'Invalid some fields are missing.'})
-    Recipe.update({ name, summary, healthScore, steps, image: image || 'https://i.ibb.co/Ykth1KM/icono-1-1.png'}, { where: { id: id}});
+    if( !name || !summary || !id ) res.status(400).json({msg: 'Invalid some fields are missing.'})
+    const recipe = await Recipe.findOne({ where: { id: id }, });
+    if(!recipe) res.status(404).json({msg: 'Recipe not found'});
+    recipe.name = name || recipe.name;
+    recipe.summary = summary || recipe.summary;
+    recipe.healthScore = healthScore || recipe.healthScore;
+    recipe.steps = steps || recipe.steps;
+    recipe.image = image || recipe.image;
     if(diets.length){
-      let arr = [];
-      const recipe = await Recipe.findOne({ where: { id: id }, });
       const findDiets = await Diet.findAll({ where: {
         name: diets
       }})
       recipe.setDiets(findDiets)
     }
+    await recipe.save();
     res.status(204).json({msg: 'Recipe has been updated successfully!'})
   } catch (error) {
     next(error)
