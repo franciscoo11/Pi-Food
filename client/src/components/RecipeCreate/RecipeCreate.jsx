@@ -29,6 +29,9 @@ export function validate(input) {
   if (!input.diets.length){
     errors.diets = "Check at least 1 diet."
   }
+  if(!input.image || !/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(input.image)){
+    errors.image = 'Url image must be a image'
+  }
   return errors;
 }
 
@@ -74,7 +77,7 @@ export default function RecipeCreate() {
 
   const handleOnSubmit = function (e) {
     e.preventDefault();
-    if(!errors.name && input.name && !errors.summary && input.summary && !errors.healthScore && input.healthScore && !errors.diets && input.diets.length){
+    if(!errors.name && input.name && !errors.summary && input.summary && !errors.healthScore && input.healthScore && !errors.diets && input.diets.length && !errors.image && input.image){
       axios.post('http://localhost:3001/recipes', input)
       .then(recipe => {
         alert('Recipe has been created')
@@ -136,6 +139,7 @@ export default function RecipeCreate() {
             name="image"
             onChange={(e) => handleInputChange(e)}
           />
+          {errors.image && <p className={styles.danger}>{errors.image}</p>}
           </div>
       
           <div>
