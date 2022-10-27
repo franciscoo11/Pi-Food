@@ -29,7 +29,7 @@ export function validate(input) {
   if (!input.diets.length){
     errors.diets = "Check at least 1 diet."
   }
-  if(!input.image || !/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(input.image)){
+  if(!input.image.trim() || !/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(input.image)){
     errors.image = 'Url image must be a image'
   }
   return errors;
